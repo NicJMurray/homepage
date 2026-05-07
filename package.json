@@ -1,0 +1,12 @@
+{
+  "name": "njmurray-homepage",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler pages dev .",
+    "deploy": "wrangler pages deploy . --project-name homepage --branch main"
+  },
+  "devDependencies": {
+    "wrangler": "^4.88.0"
+  }
+}
