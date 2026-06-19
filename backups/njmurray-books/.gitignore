@@ -1,0 +1,5 @@
+node_modules/
+.wrangler/
+.publish/
+.dev.vars
+*.log
