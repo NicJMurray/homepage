@@ -2,6 +2,14 @@
 
 Static homepage for `https://njmurray.com`, hosted on Cloudflare Pages.
 
+This repo is only the visual index for Nic's separate projects. It links out to:
+
+- `https://books.njmurray.com`
+- `https://playlist.njmurray.com`
+- `https://playlists.njmurray.com`
+- `https://rare-words.njmurray.com`
+- `https://scraper.njmurray.com`
+
 ## Local development
 
 ```bash
@@ -20,7 +28,7 @@ The existing Cloudflare Pages project is named `homepage` and already has these 
 - `njmurray.com`
 - `www.njmurray.com`
 
-This project is currently a Cloudflare Pages Direct Uploads project, so commits to this repo do not automatically deploy until the Cloudflare project is migrated to a Git-connected Pages project. The repo is still the source of truth; deploys can be pushed with Wrangler using the command above.
+Pushing to `main` deploys through GitHub Actions with Wrangler. The Cloudflare Pages project can still show "No Git connection"; the repo is the source of truth as long as the action is deploying successfully.
 
 ## Cloudflare Git integration
 
@@ -40,4 +48,4 @@ Use these settings when connecting the repo in Cloudflare:
 - Build command: leave blank
 - Build output directory: `/`
 
-The homepage links the Rare Words project at `/gutenberg/`.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for the current deployment details and required GitHub secrets.

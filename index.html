@@ -181,6 +181,10 @@
         margin-bottom: 22px;
       }
 
+      .project-section + .project-section {
+        margin-top: 46px;
+      }
+
       .section-head h2 {
         margin-bottom: 0;
         font-size: clamp(2.2rem, 6vw, 4.4rem);
@@ -233,7 +237,9 @@
 
       .card--books,
       .card--music,
-      .card--words {
+      .card--playlists,
+      .card--words,
+      .card--scraper {
         grid-column: span 3;
       }
 
@@ -247,9 +253,19 @@
         background: var(--green);
       }
 
+      .card--playlists .card__icon,
+      .card--playlists::before {
+        background: var(--gold);
+      }
+
       .card--words .card__icon,
       .card--words::before {
         background: var(--blue);
+      }
+
+      .card--scraper .card__icon,
+      .card--scraper::before {
+        background: var(--green-dark);
       }
 
       .card svg {
@@ -305,6 +321,8 @@
         .card,
         .card--books,
         .card--music,
+        .card--playlists,
+        .card--scraper,
         .card--words {
           grid-column: auto;
         }
@@ -358,9 +376,10 @@
           <span>njmurray</span>
         </a>
         <nav aria-label="Primary navigation">
-          <a href="/books/">Books</a>
-          <a href="/playlist/">Playlist Finder</a>
-          <a href="/gutenberg/">Rare Words</a>
+          <a href="https://books.njmurray.com">Books</a>
+          <a href="https://playlist.njmurray.com">Playlist Finder</a>
+          <a href="https://playlists.njmurray.com">Playlists</a>
+          <a href="https://rare-words.njmurray.com">Rare Words</a>
           <a href="https://github.com/NicJMurray" rel="noopener" target="_blank">GitHub</a>
         </nav>
       </header>
@@ -368,40 +387,28 @@
       <main>
         <section class="summary" aria-label="Site highlights">
           <div class="panel" aria-label="Site highlights">
-            <a href="/books/">
-              <span>Reading List</span>
-              <span>124 books</span>
+            <a href="#music">
+              <span>Music</span>
+              <span>2 projects</span>
             </a>
-            <a href="/playlist/">
-              <span>Music Search</span>
-              <span>Playlists</span>
+            <a href="#literature">
+              <span>Literature</span>
+              <span>2 projects</span>
             </a>
-            <div>
-              <span>Updated</span>
-              <span id="updated-year">2026</span>
-            </div>
+            <a href="#tech">
+              <span>Tech</span>
+              <span>Scraper</span>
+            </a>
           </div>
         </section>
 
-        <section aria-labelledby="projects-title">
+        <section class="project-section" id="music" aria-labelledby="music-title">
           <div class="section-head">
-            <h2 id="projects-title">Projects</h2>
+            <h2 id="music-title">Music</h2>
           </div>
 
           <div class="grid">
-            <a class="card card--books" href="/books/">
-              <span class="card__arrow" aria-hidden="true">&#8594;</span>
-              <span class="card__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-                  <path d="M4 5.5A2.5 2.5 0 0 1 6.5 8H20" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              <h3>Reading List</h3>
-              <p>Books I have read, imported from Goodreads and grouped by year and rating.</p>
-            </a>
-
-            <a class="card card--music" href="/playlist/">
+            <a class="card card--music" href="https://playlist.njmurray.com">
               <span class="card__arrow" aria-hidden="true">&#8594;</span>
               <span class="card__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none">
@@ -414,7 +421,40 @@
               <p>Enter artists or tracks and find public playlists containing that combination.</p>
             </a>
 
-            <a class="card card--words" href="/gutenberg/">
+            <a class="card card--playlists" href="https://playlists.njmurray.com">
+              <span class="card__arrow" aria-hidden="true">&#8594;</span>
+              <span class="card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M5 7h14M5 12h14M5 17h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  <path d="M17 16v-4l3-1v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="16" cy="17" r="1.6" fill="currentColor"/>
+                </svg>
+              </span>
+              <h3>Spotify Playlists</h3>
+              <p>A static gallery of my public Spotify playlists.</p>
+            </a>
+          </div>
+        </section>
+
+        <section class="project-section" id="literature" aria-labelledby="literature-title">
+          <div class="section-head">
+            <h2 id="literature-title">Literature</h2>
+          </div>
+
+          <div class="grid">
+            <a class="card card--books" href="https://books.njmurray.com">
+              <span class="card__arrow" aria-hidden="true">&#8594;</span>
+              <span class="card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M4 5.5A2.5 2.5 0 0 1 6.5 8H20" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <h3>Reading List</h3>
+              <p>Books I have read, imported from Goodreads and grouped by year and rating.</p>
+            </a>
+
+            <a class="card card--words" href="https://rare-words.njmurray.com">
               <span class="card__arrow" aria-hidden="true">&#8594;</span>
               <span class="card__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none">
@@ -424,6 +464,26 @@
               </span>
               <h3>Rare Word Explorer</h3>
               <p>Upload text and surface rare words for vocabulary study and Anki cards.</p>
+            </a>
+          </div>
+        </section>
+
+        <section class="project-section" id="tech" aria-labelledby="tech-title">
+          <div class="section-head">
+            <h2 id="tech-title">Tech</h2>
+          </div>
+
+          <div class="grid">
+            <a class="card card--scraper" href="https://scraper.njmurray.com">
+              <span class="card__arrow" aria-hidden="true">&#8594;</span>
+              <span class="card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M5 7h14M7 12h10M10 17h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  <path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <h3>Scraper</h3>
+              <p>London jobs watcher Worker with KV dedupe, cron checks, and Telegram alerts.</p>
             </a>
           </div>
         </section>
@@ -437,7 +497,6 @@
     <script>
       const year = new Date().getFullYear();
       document.getElementById("year").textContent = year;
-      document.getElementById("updated-year").textContent = year;
     </script>
   </body>
 </html>
