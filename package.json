@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "wrangler pages dev .",
-    "deploy": "wrangler pages deploy . --project-name homepage --branch main"
+    "dev": "wrangler pages dev ."
   },
   "devDependencies": {
     "wrangler": "^4.88.0"
