@@ -17,35 +17,19 @@ npm install
 npm run dev
 ```
 
-## Deploy with Wrangler
+## Deployment
 
-```bash
-npm run deploy
-```
+This repo is connected directly to Cloudflare Pages using Cloudflare's Git integration.
 
-The existing Cloudflare Pages project is named `homepage` and already has these custom domains attached:
+Pushing to `main` automatically deploys the homepage. No GitHub Actions workflow or Cloudflare API secrets are needed for this repo.
 
-- `njmurray.com`
-- `www.njmurray.com`
-
-Pushing to `main` deploys through GitHub Actions with Wrangler. The Cloudflare Pages project can still show "No Git connection"; the repo is the source of truth as long as the action is deploying successfully.
-
-## Cloudflare Git integration
-
-Cloudflare rejected converting the existing Direct Uploads project to a GitHub source project with this API error:
-
-```text
-You cannot update the `source` object in a Direct Uploads project.
-```
-
-To get automatic deploys from GitHub, create a new Cloudflare Pages project from this repo and then move the custom domains from the existing `homepage` project to the new Git-connected project.
-
-Use these settings when connecting the repo in Cloudflare:
+Cloudflare Pages settings:
 
 - Repository: `NicJMurray/homepage`
 - Production branch: `main`
 - Framework preset: `None`
 - Build command: leave blank
 - Build output directory: `/`
+- Custom domains: `njmurray.com`, `www.njmurray.com`
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for the current deployment details and required GitHub secrets.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for the deployment summary.
