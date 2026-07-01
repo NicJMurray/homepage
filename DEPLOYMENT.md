@@ -5,18 +5,19 @@
 - Canonical URL: `https://njmurray.com`
 - Cloudflare type: Pages
 - Cloudflare Pages project: `homepage`
-- Deploy command: `npm run deploy`
-- Wrangler command: `wrangler pages deploy . --project-name homepage --branch main`
+- Deploy method: Cloudflare Pages Git integration
 
-## GitHub Actions
+## Cloudflare settings
 
-Pushing to `main` deploys through `.github/workflows/deploy.yml`.
+- Repository: `NicJMurray/homepage`
+- Production branch: `main`
+- Framework preset: `None`
+- Build command: leave blank
+- Build output directory: `/`
+- Custom domains: `njmurray.com`, `www.njmurray.com`
 
-Required repository secrets:
+## Editing workflow
 
-```text
-CLOUDFLARE_API_TOKEN
-CLOUDFLARE_ACCOUNT_ID
-```
+Edit the repo, commit to `main`, and Cloudflare deploys automatically.
 
-The Pages project may still show "No Git connection" in Cloudflare. That is fine when GitHub Actions deploys with Wrangler.
+This repo no longer uses a GitHub Actions Wrangler deploy workflow. No `CLOUDFLARE_API_TOKEN` or `CLOUDFLARE_ACCOUNT_ID` GitHub secrets are needed for homepage deployment.
