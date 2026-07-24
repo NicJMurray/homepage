@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-labelledby="title desc">
+  <title id="title">Project Homepage</title>
+  <desc id="desc">Project banner for the main static project index.</desc>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#cfd8d0" stroke-width="1" opacity=".55"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="320" fill="#f4f6f3"/>
+  <rect width="1200" height="320" fill="url(#grid)"/>
+  <rect x="64" y="48" width="48" height="48" rx="10" fill="#174f43"/>
+  <text x="88" y="81" text-anchor="middle" fill="#fffef9" font-family="Georgia, serif" font-size="25" font-weight="700">N</text>
+  <text x="64" y="139" fill="#66716b" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="3">PROJECT INDEX</text>
+  <text x="64" y="207" fill="#171a1f" font-family="Georgia, serif" font-size="54" font-weight="500">Project Homepage</text>
+  <text x="66" y="249" fill="#66716b" font-family="Inter, Arial, sans-serif" font-size="20">njmurray.com</text>
+  <rect x="906" y="82" width="92" height="66" rx="8" fill="#fffef9" stroke="#b5483c" stroke-width="3"/>
+  <rect x="1016" y="82" width="92" height="66" rx="8" fill="#fffef9" stroke="#174f43" stroke-width="3"/>
+  <rect x="906" y="166" width="92" height="66" rx="8" fill="#fffef9" stroke="#284f8f" stroke-width="3"/>
+  <rect x="1016" y="166" width="92" height="66" rx="8" fill="#fffef9" stroke="#c18426" stroke-width="3"/>
+  <rect y="310" width="1200" height="10" fill="#174f43"/>
+</svg>
