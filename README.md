@@ -1,23 +1,150 @@
 # njmurray homepage
 
-`njmurray.com` is the static front door for the other personal projects. It has no application logic, database, build output, or server-side rendering: Cloudflare Pages serves `index.html` as written.
+Static project index at `njmurray.com`. Its only responsibility is to provide a coherent front door to the separate subdomain applications.
 
-## How it is structured
+There is no application state, API request, framework runtime, database, generated content, or server-side rendering. Cloudflare Pages returns `index.html`, and the browser renders that document directly.
 
-Everything visual lives in `index.html`:
+## Request and render path
 
-- The `<head>` contains metadata, Open Graph information, and the Google Analytics tag.
-- The `<style>` block contains the complete responsive layout and shared visual language used across the project sites.
-- The main content is a set of navigation panels and project cards linking to the subdomain apps.
-- A very small inline script updates the footer year.
+```text
+Browser request
+→ Cloudflare Pages
+→ index.html
+→ browser parses HTML and inline CSS
+→ analytics script loads independently
+→ footer-year script runs
+```
 
-The site is deliberately a hand-written static page. There is no framework, component layer, fetch request, or generated project data to keep in sync.
+A page failure is therefore limited to static delivery or a browser rendering issue. The linked projects can be unavailable without affecting the homepage itself.
 
-## Updating it
+## Document structure
 
-- Add or change a project by editing the relevant card link, icon, title, description, and category directly in `index.html`.
-- Update the compact project index near the top at the same time as the larger project cards so both routes remain accurate.
-- Keep external project URLs on their canonical subdomains. The homepage is an index, not a proxy or application shell.
-- Adjust global visual tokens at the top of the inline stylesheet (`--paper`, `--green`, etc.) if the shared palette changes.
+Everything visible is in `index.html`:
 
-`_headers` contains the static response-header rules. `DEPLOYMENT.md` remains a separate operational note; this README is only the map of how the site itself works.
+1. **Metadata and analytics**
+   - page title and description;
+   - Open Graph title, description, and type;
+   - theme colour;
+   - Google Analytics loader and configuration.
+2. **Inline design system**
+   - colour variables;
+   - typography;
+   - shell, navigation, panels, cards, and responsive rules.
+3. **Top navigation**
+   - direct canonical links to each project subdomain;
+   - external GitHub link opened in a separate tab.
+4. **Summary panel**
+   - compact shortcuts and high-level site information.
+5. **Project sections**
+   - music;
+   - literature;
+   - technology.
+6. **Footer**
+   - static identity link with a year filled by JavaScript.
+
+The project cards are ordinary anchors rather than JavaScript click handlers. Navigation therefore works without client-side JavaScript.
+
+## Layout system
+
+The page uses a centred shell with a maximum width of `1120px`.
+
+The main visual tokens are CSS custom properties:
+
+```css
+--paper
+--surface
+--ink
+--muted
+--line
+--green
+--green-dark
+--blue
+--red
+--gold
+--shadow
+```
+
+The background combines two repeating linear gradients over `--paper`, creating the grid texture without an image asset.
+
+The summary panel uses three equal columns separated by the panel background colour. Project cards use a six-column grid and normally span three columns, producing two cards per row. Each card variant assigns its icon block and top border an accent colour.
+
+Responsive behaviour:
+
+| Breakpoint | Change |
+| --- | --- |
+| `860px` | Project grid becomes one column; cards become shorter; section headings and footer stack. |
+| `560px` | Shell gutters narrow; top navigation wraps below the wordmark; summary panel becomes one column. |
+
+No layout measurement is performed in JavaScript; the browser resolves every breakpoint through CSS.
+
+## Semantics and accessibility
+
+- Navigation uses a labelled `<nav>`.
+- Project collections use named sections with heading relationships.
+- Decorative SVGs and arrows are hidden from assistive technology.
+- Each entire card is a single anchor, producing a large keyboard and pointer target.
+- Text and icons remain in the HTML rather than being generated after load.
+- Focus and hover behaviour are CSS-driven.
+
+## Runtime JavaScript
+
+Two scripts execute:
+
+1. Google Analytics initialises `dataLayer` and configures measurement ID `G-GDNHTX5GQZ`.
+2. The footer script writes the browser’s current year into `#year`.
+
+Neither script controls navigation, layout, or project visibility. If analytics is blocked, the page continues to function normally.
+
+## Source of truth
+
+Project information is deliberately duplicated in a few user-facing structures:
+
+- top navigation;
+- summary panel;
+- full project cards.
+
+There is no shared data object generating these elements. A project addition, removal, rename, or URL change must be applied consistently to each relevant structure.
+
+Each project card contains:
+
+- a canonical destination URL;
+- a category-specific class;
+- a decorative SVG;
+- a title;
+- a short functional description;
+- an arrow indicating navigation.
+
+## Response headers
+
+`_headers` contains Cloudflare Pages response-header rules. It is the place for site-wide browser policy or cache directives that should be sent with static responses.
+
+`DEPLOYMENT.md` contains operational hosting notes and is intentionally separate from this technical description of the page.
+
+## File map
+
+| File | Responsibility |
+| --- | --- |
+| `index.html` | Complete document, content, inline CSS, analytics, and footer script. |
+| `_headers` | Cloudflare Pages response headers. |
+| `package.json` | Wrangler development command; no production build step. |
+| `DEPLOYMENT.md` | Hosting and domain reference. |
+
+## Change map
+
+| Change | Main location |
+| --- | --- |
+| Add or remove a project | Navigation, summary panel, and project section in `index.html` |
+| Change a project URL | Every matching anchor in `index.html` |
+| Change global colours | `:root` custom properties |
+| Change card accent | Card modifier selectors such as `.card--books` |
+| Change desktop card layout | `.grid` and card `grid-column` rules |
+| Change mobile layout | The `860px` and `560px` media queries |
+| Change metadata | `<head>` title, description, Open Graph tags, and theme colour |
+| Change analytics | The Google tag block |
+
+## Design constraints
+
+- Project data is manually maintained.
+- The common navigation is copied across several independent repositories rather than imported from a shared package.
+- Inline CSS keeps the site self-contained but makes `index.html` the single large edit surface.
+- No project availability check is performed; every card always renders.
