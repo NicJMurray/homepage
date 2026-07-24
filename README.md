@@ -1,4 +1,6 @@
-# njmurray homepage
+![Project Homepage](.github/readme-banner.svg)
+
+# Project Homepage
 
 Static project index at `njmurray.com`. Its only responsibility is to provide a coherent front door to the separate subdomain applications.
 
