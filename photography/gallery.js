@@ -1,8 +1,6 @@
 const galleryElement = document.querySelector("#gallery");
 const lightbox = document.querySelector("#lightbox");
 const lightboxImage = lightbox.querySelector("img");
-const lightboxNumber = lightbox.querySelector(".lightbox__number");
-const lightboxTitle = lightbox.querySelector(".lightbox__title");
 const closeButton = lightbox.querySelector(".lightbox__close");
 const previousButton = lightbox.querySelector(".lightbox__nav--previous");
 const nextButton = lightbox.querySelector(".lightbox__nav--next");
@@ -13,18 +11,12 @@ let lastTrigger = null;
 
 yearElement.textContent = new Date().getFullYear();
 
-function photographNumber(index) {
-  return `Photograph ${String(index + 1).padStart(2, "0")}`;
-}
-
 function updateLightbox(index) {
   activeIndex = (index + photos.length) % photos.length;
   const photo = photos[activeIndex];
 
   lightboxImage.src = photo.large;
   lightboxImage.alt = photo.alt;
-  lightboxNumber.textContent = photographNumber(activeIndex);
-  lightboxTitle.textContent = photo.title;
 }
 
 function openLightbox(index, trigger) {
@@ -46,7 +38,7 @@ function buildGallery() {
 
     const button = document.createElement("button");
     button.type = "button";
-    button.setAttribute("aria-label", `View ${photo.title} fullscreen`);
+    button.setAttribute("aria-label", "View photograph fullscreen");
 
     const image = document.createElement("img");
     image.src = photo.src;
@@ -58,11 +50,7 @@ function buildGallery() {
     image.loading = "lazy";
     image.decoding = "async";
 
-    const caption = document.createElement("span");
-    caption.className = "gallery-item__caption";
-    caption.innerHTML = `<span>${photo.title}</span><span>${String(index + 1).padStart(2, "0")}</span>`;
-
-    button.append(image, caption);
+    button.append(image);
     button.addEventListener("click", () => openLightbox(index, button));
     figure.append(button);
     fragment.append(figure);
@@ -99,7 +87,6 @@ async function loadGallery() {
     }
 
     photos = await response.json();
-    document.querySelector("[data-photo-count]").textContent = photos.length;
     buildGallery();
   } catch (error) {
     console.error(error);
