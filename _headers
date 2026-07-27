@@ -5,10 +5,10 @@
 /index.html
   Cache-Control: public, max-age=0, must-revalidate
 
-/photography/gallery.js
+/photography/gallery-20260727.js
   Cache-Control: public, max-age=0, must-revalidate
 
-/photography/photography.css
+/photography/photography-20260727.css
   Cache-Control: public, max-age=0, must-revalidate
 
 /photography/gallery.json

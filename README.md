@@ -162,8 +162,8 @@ Each project card contains:
 | --- | --- |
 | `index.html` | Homepage document, content, inline CSS, analytics, and footer script. |
 | `photography/index.html` | Photography page structure and metadata. |
-| `photography/photography.css` | Photography layout, gallery and fullscreen viewer styles. |
-| `photography/gallery.js` | Gallery rendering and fullscreen interactions. |
+| `photography/photography-20260727.css` | Photography layout, gallery and fullscreen viewer styles. |
+| `photography/gallery-20260727.js` | Gallery rendering and fullscreen interactions. |
 | `photography/gallery.json` | Generated photo manifest. |
 | `photography/photo-details.json` | Maintained photo titles and alt text. |
 | `photography/photos/` | Generated responsive WebP assets. |

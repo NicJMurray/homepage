@@ -7,8 +7,8 @@ const required = [
   "index.html",
   "_headers",
   "photography/index.html",
-  "photography/photography.css",
-  "photography/gallery.js",
+  "photography/photography-20260727.css",
+  "photography/gallery-20260727.js",
   "photography/gallery.json",
 ];
 
@@ -42,7 +42,7 @@ if (!homepage.includes('href="/photography/"')) {
   throw new Error("Homepage does not link to Photography.");
 }
 
-if (!photographyPage.includes("gallery.js")) {
+if (!photographyPage.includes("gallery-20260727.js")) {
   throw new Error("Photography page does not load the gallery.");
 }
 
