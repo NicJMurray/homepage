@@ -74,6 +74,12 @@ npm.cmd run photos:sync -- "C:\path\to\photos"
 
 It rotates from EXIF data, writes responsive WebP copies, and rebuilds `photography/gallery.json`. Optional titles and descriptive alt text belong in `photography/photo-details.json`.
 
+After committing and pushing the refreshed assets to GitHub, publish the same checked source with:
+
+```powershell
+npm.cmd run publish
+```
+
 ## Layout system
 
 The page uses a centred shell with a maximum width of `1120px`.
@@ -163,6 +169,7 @@ Each project card contains:
 | `photography/photos/` | Generated responsive WebP assets. |
 | `scripts/sync-photos.mjs` | Repeatable photo optimisation and manifest workflow. |
 | `scripts/check-site.mjs` | Static asset and link validation. |
+| `scripts/publish-site.mjs` | Checked, minimal Cloudflare Pages deployment. |
 | `_headers` | Cloudflare Pages response headers. |
 | `package.json` | Local preview, photo sync and validation commands. |
 | `DEPLOYMENT.md` | Hosting and domain reference. |

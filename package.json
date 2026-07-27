@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "wrangler pages dev .",
     "photos:sync": "node scripts/sync-photos.mjs",
-    "check": "node scripts/check-site.mjs"
+    "check": "node scripts/check-site.mjs",
+    "publish": "npm run check && node scripts/publish-site.mjs"
   },
   "devDependencies": {
     "sharp": "^0.35.3",
