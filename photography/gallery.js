@@ -1,13 +1,21 @@
 const galleryElement = document.querySelector("#gallery");
-const galleryStatus = document.querySelector("#gallery-status");
 const lightbox = document.querySelector("#lightbox");
 const lightboxImage = lightbox.querySelector("img");
+const lightboxNumber = lightbox.querySelector(".lightbox__number");
+const lightboxTitle = lightbox.querySelector(".lightbox__title");
 const closeButton = lightbox.querySelector(".lightbox__close");
 const previousButton = lightbox.querySelector(".lightbox__nav--previous");
 const nextButton = lightbox.querySelector(".lightbox__nav--next");
+const yearElement = document.querySelector("#year");
 let photos = [];
 let activeIndex = 0;
 let lastTrigger = null;
+
+yearElement.textContent = new Date().getFullYear();
+
+function photographNumber(index) {
+  return `Photograph ${String(index + 1).padStart(2, "0")}`;
+}
 
 function updateLightbox(index) {
   activeIndex = (index + photos.length) % photos.length;
@@ -15,6 +23,8 @@ function updateLightbox(index) {
 
   lightboxImage.src = photo.large;
   lightboxImage.alt = photo.alt;
+  lightboxNumber.textContent = photographNumber(activeIndex);
+  lightboxTitle.textContent = photo.title;
 }
 
 function openLightbox(index, trigger) {
@@ -41,26 +51,44 @@ function buildGallery() {
     const image = document.createElement("img");
     image.src = photo.src;
     image.srcset = `${photo.src} 960w, ${photo.large} 1920w`;
-    image.sizes = "(max-width: 880px) 50vw, 33vw";
+    image.sizes = "(max-width: 600px) 100vw, (max-width: 940px) 50vw, 33vw";
     image.width = photo.width;
     image.height = photo.height;
     image.alt = photo.alt;
-    image.loading = index < 4 ? "eager" : "lazy";
+    image.loading = "lazy";
     image.decoding = "async";
-    image.addEventListener("load", () => image.classList.add("is-loaded"));
 
-    if (image.complete) {
-      image.classList.add("is-loaded");
-    }
+    const caption = document.createElement("span");
+    caption.className = "gallery-item__caption";
+    caption.innerHTML = `<span>${photo.title}</span><span>${String(index + 1).padStart(2, "0")}</span>`;
 
-    button.append(image);
+    button.append(image, caption);
     button.addEventListener("click", () => openLightbox(index, button));
     figure.append(button);
     fragment.append(figure);
   });
 
   galleryElement.replaceChildren(fragment);
-  galleryStatus.textContent = `${photos.length} photographs loaded`;
+
+  const items = galleryElement.querySelectorAll(".gallery-item");
+  if (!("IntersectionObserver" in window)) {
+    items.forEach((item) => item.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: "80px 0px", threshold: 0.08 },
+  );
+
+  items.forEach((item) => observer.observe(item));
 }
 
 async function loadGallery() {
@@ -71,10 +99,12 @@ async function loadGallery() {
     }
 
     photos = await response.json();
+    document.querySelector("[data-photo-count]").textContent = photos.length;
     buildGallery();
   } catch (error) {
     console.error(error);
-    galleryStatus.textContent = "The photographs could not be loaded";
+    galleryElement.innerHTML =
+      '<p class="gallery__loading">The photographs could not be loaded. Please try refreshing the page.</p>';
   }
 }
 

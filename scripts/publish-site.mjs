@@ -14,7 +14,6 @@ const wrangler = path.join(root, "node_modules", "wrangler", "bin", "wrangler.js
 
 try {
   await copyFile(path.join(root, "index.html"), path.join(stage, "index.html"));
-  await copyFile(path.join(root, "home.css"), path.join(stage, "home.css"));
   await copyFile(path.join(root, "_headers"), path.join(stage, "_headers"));
   await cp(path.join(root, "photography"), path.join(stage, "photography"), {
     recursive: true,
