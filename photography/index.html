@@ -14,143 +14,51 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Photography — Nic Murray</title>
+    <title>My Photos — Nic Murray</title>
     <meta
       name="description"
-      content="A personal collection of photographs by Nic Murray: streets, gardens, geometry and people."
+      content="A personal collection of photographs by Nic Murray."
     />
-    <meta property="og:title" content="Photography — Nic Murray" />
+    <meta property="og:title" content="My Photos — Nic Murray" />
     <meta
       property="og:description"
-      content="Streets, gardens, geometry and people — a personal collection of photographs."
+      content="A personal collection of photographs by Nic Murray."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://njmurray.com/photography/og.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Photography by Nic Murray" />
+    <meta property="og:image:alt" content="My Photos by Nic Murray" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#e8e4dc" />
     <link rel="canonical" href="https://njmurray.com/photography/" />
-    <link rel="preload" as="image" href="photos/dscf0218-1920.webp" type="image/webp" />
     <link rel="stylesheet" href="photography.css" />
   </head>
 
   <body>
-    <header class="site-header">
-      <a class="wordmark" href="/" aria-label="Back to njmurray homepage">
-        <span class="mark" aria-hidden="true">N</span>
-        <span>njmurray</span>
+    <header class="photo-header">
+      <h1>My Photos</h1>
+      <a class="back-link" href="/" aria-label="Back to homepage">
+        <span aria-hidden="true">↖</span>
       </a>
-
-      <nav aria-label="Photography navigation">
-        <a href="#collection">Collection</a>
-        <a href="/" class="home-link">
-          All projects
-          <span aria-hidden="true">↗</span>
-        </a>
-      </nav>
     </header>
 
     <main>
-      <section class="hero" aria-labelledby="page-title">
-        <div class="hero__copy">
-          <p class="eyebrow">Art / Photography</p>
-          <h1 id="page-title">Things that<br />held my gaze.</h1>
-          <p class="intro">
-            Streets, gardens, geometry and people — a personal collection of
-            moments worth keeping.
-          </p>
-
-          <a class="scroll-link" href="#collection">
-            Explore the collection
-            <span aria-hidden="true">↓</span>
-          </a>
-
-          <dl class="hero__details">
-            <div>
-              <dt>Frames</dt>
-              <dd data-photo-count>21</dd>
-            </div>
-            <div>
-              <dt>Camera</dt>
-              <dd>Fujifilm</dd>
-            </div>
-            <div>
-              <dt>Collection</dt>
-              <dd>Ongoing</dd>
-            </div>
-          </dl>
-        </div>
-
-        <figure class="hero__image">
-          <img
-            src="photos/dscf0218-1920.webp"
-            width="6240"
-            height="4160"
-            alt="Angular stone and glass architecture converging against a blue sky"
-            fetchpriority="high"
-          />
-          <figcaption>
-            <span>Angles in glass</span>
-            <span>Photograph 03</span>
-          </figcaption>
-        </figure>
-      </section>
-
-      <section class="collection" id="collection" aria-labelledby="collection-title">
-        <div class="collection__head">
-          <div>
-            <p class="eyebrow">Selected work</p>
-            <h2 id="collection-title">The collection</h2>
-          </div>
-          <p>
-            No fixed theme. Just light, colour, shape<br />
-            and the occasional perfect accident.
-          </p>
-        </div>
-
-        <div class="gallery" id="gallery" aria-live="polite">
-          <p class="gallery__loading">Preparing the photographs…</p>
-        </div>
-
-        <noscript>
-          <p class="noscript-message">
-            JavaScript is needed to assemble this gallery and open the fullscreen viewer.
-          </p>
-        </noscript>
-      </section>
-
-      <section class="closing" aria-label="End of collection">
-        <p class="eyebrow">End frame</p>
-        <p class="closing__mark" aria-hidden="true">N</p>
-        <p>More photographs will find their way here.</p>
-        <a href="/">Return to all projects <span aria-hidden="true">→</span></a>
-      </section>
+      <div class="gallery" id="gallery" aria-live="polite"></div>
+      <p class="sr-only" id="gallery-status" role="status"></p>
     </main>
-
-    <footer>
-      <p>&copy; <span id="year"></span> Nic Murray</p>
-      <a href="https://github.com/NicJMurray" rel="noopener" target="_blank">GitHub ↗</a>
-    </footer>
 
     <dialog class="lightbox" id="lightbox" aria-label="Fullscreen photograph">
       <div class="lightbox__stage">
         <button class="lightbox__close" type="button" aria-label="Close fullscreen photograph">
-          Close <span aria-hidden="true">×</span>
+          <span aria-hidden="true">×</span>
         </button>
 
         <button class="lightbox__nav lightbox__nav--previous" type="button" aria-label="Previous photograph">
           <span aria-hidden="true">←</span>
         </button>
 
-        <figure>
-          <img src="" alt="" />
-          <figcaption>
-            <span class="lightbox__number"></span>
-            <span class="lightbox__title"></span>
-          </figcaption>
-        </figure>
+        <img src="" alt="" />
 
         <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next photograph">
           <span aria-hidden="true">→</span>

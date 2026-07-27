@@ -4,57 +4,54 @@
 
 Static project index and personal photography gallery at `njmurray.com`. The homepage provides a coherent front door to the separate subdomain applications and the first-party Photography collection.
 
-There is no application state, API request, framework runtime, database, generated content, or server-side rendering. Cloudflare Pages returns `index.html`, and the browser renders that document directly.
+There is no application state, framework runtime, database, or server-side rendering. Cloudflare Pages returns static documents and assets directly; the Photography page fetches its small generated gallery manifest in the browser.
 
 ## Request and render path
 
 ```text
 Browser request
 → Cloudflare Pages
-→ index.html
-→ browser parses HTML and inline CSS
+→ static HTML, CSS, JavaScript and image assets
+→ browser renders the requested page
 → analytics script loads independently
-→ footer-year script runs
 ```
 
 A page failure is therefore limited to static delivery or a browser rendering issue. The linked projects can be unavailable without affecting the homepage itself.
 
 ## Document structure
 
-Everything visible is in `index.html`:
+The homepage is split between `index.html` and `home.css`:
 
 1. **Metadata and analytics**
    - page title and description;
    - Open Graph title, description, and type;
    - theme colour;
    - Google Analytics loader and configuration.
-2. **Inline design system**
+2. **Design system**
    - colour variables;
    - typography;
-   - shell, navigation, panels, cards, and responsive rules.
+   - navigation, editorial project rows, and responsive rules.
 3. **Top navigation**
    - direct canonical links to each project subdomain;
    - external GitHub link opened in a separate tab.
-4. **Summary panel**
-   - compact shortcuts and high-level site information.
-5. **Project sections**
+4. **Project sections**
    - music;
    - literature;
    - art;
    - technology.
-6. **Footer**
+5. **Footer**
    - static identity link with a year filled by JavaScript.
 
-The project cards are ordinary anchors rather than JavaScript click handlers. Navigation therefore works without client-side JavaScript.
+Project rows are ordinary anchors rather than JavaScript click handlers. Navigation therefore works without client-side JavaScript.
 
 ## Photography
 
-`photography/index.html` is an editorial gallery with:
+`photography/index.html` is a deliberately minimal gallery with:
 
-- a responsive hero;
+- one visible title;
 - a natural-ratio masonry collection;
 - lazy-loaded 960 px images and 1920 px fullscreen images;
-- a keyboard-accessible fullscreen viewer;
+- icon-only, keyboard-accessible fullscreen controls;
 - reduced-motion support;
 - a dedicated social sharing card.
 
@@ -82,34 +79,26 @@ npm.cmd run publish
 
 ## Layout system
 
-The page uses a centred shell with a maximum width of `1120px`.
-
 The main visual tokens are CSS custom properties:
 
 ```css
 --paper
---surface
 --ink
 --muted
 --line
---green
---green-dark
---blue
---red
---gold
---shadow
+--forest
+--cream
 ```
 
-The background combines two repeating linear gradients over `--paper`, creating the grid texture without an image asset.
-
-The summary panel uses four equal columns separated by the panel background colour. Project cards use a six-column grid and normally span three columns, producing two cards per row. The Photography feature spans the full width. Each card variant assigns its icon block and top border an accent colour.
+The homepage and Photography page share the same warm paper, dark ink, forest accent and editorial serif typography. The homepage uses border-separated project rows without shadows, rounded containers or decorative cards. Photography removes all visible copy except its title.
 
 Responsive behaviour:
 
 | Breakpoint | Change |
 | --- | --- |
-| `860px` | Project grid becomes one column; cards become shorter; section headings and footer stack. |
-| `560px` | Shell gutters narrow; top navigation wraps below the wordmark; summary panel becomes one column. |
+| `820px` | Homepage sections stack and project details simplify. |
+| `880px` | Photography moves from three columns to two. |
+| `560px` | Gutters and typography tighten for small screens. |
 
 No layout measurement is performed in JavaScript; the browser resolves every breakpoint through CSS.
 
@@ -117,10 +106,11 @@ No layout measurement is performed in JavaScript; the browser resolves every bre
 
 - Navigation uses a labelled `<nav>`.
 - Project collections use named sections with heading relationships.
-- Decorative SVGs and arrows are hidden from assistive technology.
-- Each entire card is a single anchor, producing a large keyboard and pointer target.
+- Decorative numbers and arrows are hidden from assistive technology.
+- Each entire project row is a single anchor, producing a large keyboard and pointer target.
 - Text and icons remain in the HTML rather than being generated after load.
 - Focus and hover behaviour are CSS-driven.
+- Gallery alt text and control labels remain available without adding visible captions.
 
 ## Runtime JavaScript
 
@@ -133,19 +123,10 @@ Neither script controls navigation, layout, or project visibility. If analytics 
 
 ## Source of truth
 
-Project information is deliberately duplicated in a few user-facing structures:
-
-- top navigation;
-- summary panel;
-- full project cards.
-
-There is no shared data object generating these elements. A project addition, removal, rename, or URL change must be applied consistently to each relevant structure.
-
-Each project card contains:
+Project information is manually maintained in the homepage index. Each project row contains:
 
 - a canonical destination URL;
-- a category-specific class;
-- a decorative SVG;
+- an index number;
 - a title;
 - a short functional description;
 - an arrow indicating navigation.
@@ -160,7 +141,8 @@ Each project card contains:
 
 | File | Responsibility |
 | --- | --- |
-| `index.html` | Homepage document, content, inline CSS, analytics, and footer script. |
+| `index.html` | Homepage structure, content, analytics, and footer script. |
+| `home.css` | Shared minimalist homepage design and responsive layout. |
 | `photography/index.html` | Photography page structure and metadata. |
 | `photography/photography.css` | Photography layout, gallery and fullscreen viewer styles. |
 | `photography/gallery.js` | Gallery rendering and fullscreen interactions. |
@@ -178,14 +160,14 @@ Each project card contains:
 
 | Change | Main location |
 | --- | --- |
-| Add or remove a project | Navigation, summary panel, and project section in `index.html` |
+| Add or remove a project | Project sections in `index.html` |
 | Add photographs | Source photo folder, then `npm.cmd run photos:sync` |
 | Change a photograph title or alt text | `photography/photo-details.json`, then run the sync |
 | Change a project URL | Every matching anchor in `index.html` |
 | Change global colours | `:root` custom properties |
-| Change card accent | Card modifier selectors such as `.card--books` |
-| Change desktop card layout | `.grid` and card `grid-column` rules |
-| Change mobile layout | The `860px` and `560px` media queries |
+| Change homepage layout | `home.css` |
+| Change photography layout | `photography/photography.css` |
+| Change mobile layout | Media queries in the relevant stylesheet |
 | Change metadata | `<head>` title, description, Open Graph tags, and theme colour |
 | Change analytics | The Google tag block |
 
@@ -193,5 +175,4 @@ Each project card contains:
 
 - Project data is manually maintained.
 - The common navigation is copied across several independent repositories rather than imported from a shared package.
-- Inline CSS keeps the site self-contained but makes `index.html` the single large edit surface.
-- No project availability check is performed; every card always renders.
+- No project availability check is performed; every project row always renders.
