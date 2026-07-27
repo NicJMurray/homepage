@@ -81,7 +81,7 @@ function buildGallery() {
 
 async function loadGallery() {
   try {
-    const response = await fetch("gallery.json");
+    const response = await fetch("gallery.json?v=20260727-1");
     if (!response.ok) {
       throw new Error(`Gallery request failed with ${response.status}`);
     }

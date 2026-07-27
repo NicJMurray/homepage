@@ -4,3 +4,12 @@
 
 /index.html
   Cache-Control: public, max-age=0, must-revalidate
+
+/photography/gallery.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/photography/photography.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/photography/gallery.json
+  Cache-Control: public, max-age=0, must-revalidate
