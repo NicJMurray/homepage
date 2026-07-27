@@ -2,7 +2,7 @@
 
 # Project Homepage
 
-Static project index at `njmurray.com`. Its only responsibility is to provide a coherent front door to the separate subdomain applications.
+Static project index and personal photography gallery at `njmurray.com`. The homepage provides a coherent front door to the separate subdomain applications and the first-party Photography collection.
 
 There is no application state, API request, framework runtime, database, generated content, or server-side rendering. Cloudflare Pages returns `index.html`, and the browser renders that document directly.
 
@@ -40,11 +40,39 @@ Everything visible is in `index.html`:
 5. **Project sections**
    - music;
    - literature;
+   - art;
    - technology.
 6. **Footer**
    - static identity link with a year filled by JavaScript.
 
 The project cards are ordinary anchors rather than JavaScript click handlers. Navigation therefore works without client-side JavaScript.
+
+## Photography
+
+`photography/index.html` is an editorial gallery with:
+
+- a responsive hero;
+- a natural-ratio masonry collection;
+- lazy-loaded 960 px images and 1920 px fullscreen images;
+- a keyboard-accessible fullscreen viewer;
+- reduced-motion support;
+- a dedicated social sharing card.
+
+The screen-sized WebP assets live in `photography/photos/`. This keeps the photographs on the same free Cloudflare Pages deployment as the rest of the site, while the GitHub repository provides a second copy.
+
+To refresh the gallery, place new originals in the source photo folder and run:
+
+```powershell
+npm.cmd run photos:sync
+```
+
+The sync script accepts another folder as an optional argument:
+
+```powershell
+npm.cmd run photos:sync -- "C:\path\to\photos"
+```
+
+It rotates from EXIF data, writes responsive WebP copies, and rebuilds `photography/gallery.json`. Optional titles and descriptive alt text belong in `photography/photo-details.json`.
 
 ## Layout system
 
@@ -68,7 +96,7 @@ The main visual tokens are CSS custom properties:
 
 The background combines two repeating linear gradients over `--paper`, creating the grid texture without an image asset.
 
-The summary panel uses three equal columns separated by the panel background colour. Project cards use a six-column grid and normally span three columns, producing two cards per row. Each card variant assigns its icon block and top border an accent colour.
+The summary panel uses four equal columns separated by the panel background colour. Project cards use a six-column grid and normally span three columns, producing two cards per row. The Photography feature spans the full width. Each card variant assigns its icon block and top border an accent colour.
 
 Responsive behaviour:
 
@@ -126,9 +154,17 @@ Each project card contains:
 
 | File | Responsibility |
 | --- | --- |
-| `index.html` | Complete document, content, inline CSS, analytics, and footer script. |
+| `index.html` | Homepage document, content, inline CSS, analytics, and footer script. |
+| `photography/index.html` | Photography page structure and metadata. |
+| `photography/photography.css` | Photography layout, gallery and fullscreen viewer styles. |
+| `photography/gallery.js` | Gallery rendering and fullscreen interactions. |
+| `photography/gallery.json` | Generated photo manifest. |
+| `photography/photo-details.json` | Maintained photo titles and alt text. |
+| `photography/photos/` | Generated responsive WebP assets. |
+| `scripts/sync-photos.mjs` | Repeatable photo optimisation and manifest workflow. |
+| `scripts/check-site.mjs` | Static asset and link validation. |
 | `_headers` | Cloudflare Pages response headers. |
-| `package.json` | Wrangler development command; no production build step. |
+| `package.json` | Local preview, photo sync and validation commands. |
 | `DEPLOYMENT.md` | Hosting and domain reference. |
 
 ## Change map
@@ -136,6 +172,8 @@ Each project card contains:
 | Change | Main location |
 | --- | --- |
 | Add or remove a project | Navigation, summary panel, and project section in `index.html` |
+| Add photographs | Source photo folder, then `npm.cmd run photos:sync` |
+| Change a photograph title or alt text | `photography/photo-details.json`, then run the sync |
 | Change a project URL | Every matching anchor in `index.html` |
 | Change global colours | `:root` custom properties |
 | Change card accent | Card modifier selectors such as `.card--books` |

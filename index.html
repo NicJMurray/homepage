@@ -17,12 +17,12 @@
     <title>Nic</title>
     <meta
       name="description"
-      content="Small, useful web apps and public projects by Nic."
+      content="Small, useful web apps, public projects and photography by Nic Murray."
     />
     <meta property="og:title" content="Nic" />
     <meta
       property="og:description"
-      content="Small, useful web apps and public projects by Nic."
+      content="Small, useful web apps, public projects and photography by Nic Murray."
     />
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#f4f6f3" />
@@ -38,6 +38,7 @@
         --blue: #284f8f;
         --red: #b5483c;
         --gold: #c18426;
+        --plum: #72506b;
         --shadow: 0 18px 44px rgba(23, 26, 31, 0.08);
       }
 
@@ -141,7 +142,7 @@
 
       .panel {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 1px;
         overflow: hidden;
         border: 1px solid var(--line);
@@ -243,6 +244,14 @@
         grid-column: span 3;
       }
 
+      .card--photography {
+        display: grid;
+        min-height: 320px;
+        grid-column: span 6;
+        grid-template-columns: minmax(280px, 0.82fr) minmax(420px, 1.18fr);
+        padding: 0;
+      }
+
       .card--books .card__icon,
       .card--books::before {
         background: var(--red);
@@ -266,6 +275,44 @@
       .card--scraper .card__icon,
       .card--scraper::before {
         background: var(--green-dark);
+      }
+
+      .card--photography::before,
+      .card--photography .card__icon {
+        background: var(--plum);
+      }
+
+      .card--photography .card__content {
+        display: flex;
+        flex-direction: column;
+        padding: 28px;
+      }
+
+      .card--photography .card__icon {
+        margin-bottom: auto;
+      }
+
+      .card--photography .card__image {
+        min-height: 320px;
+        overflow: hidden;
+        background: #91a4a4;
+      }
+
+      .card--photography img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .card--photography:hover img {
+        transform: scale(1.02);
+      }
+
+      .card--photography .card__arrow {
+        z-index: 2;
+        color: #fff;
+        text-shadow: 0 1px 10px rgba(0, 0, 0, 0.36);
       }
 
       .card svg {
@@ -323,12 +370,34 @@
         .card--music,
         .card--playlists,
         .card--scraper,
-        .card--words {
+        .card--words,
+        .card--photography {
           grid-column: auto;
         }
 
         .card {
           min-height: 210px;
+        }
+
+        .panel {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .card--photography {
+          grid-template-columns: 1fr;
+        }
+
+        .card--photography .card__content {
+          min-height: 270px;
+        }
+
+        .card--photography .card__image {
+          min-height: 280px;
+        }
+
+        .card--photography .card__arrow {
+          color: var(--muted);
+          text-shadow: none;
         }
 
         .section-head,
@@ -380,6 +449,7 @@
           <a href="https://playlist.njmurray.com">Playlist Finder</a>
           <a href="https://playlists.njmurray.com">Playlists</a>
           <a href="https://rare-words.njmurray.com">Rare Words</a>
+          <a href="/photography/">Photography</a>
           <a href="https://github.com/NicJMurray" rel="noopener" target="_blank">GitHub</a>
         </nav>
       </header>
@@ -394,6 +464,10 @@
             <a href="#literature">
               <span>Literature</span>
               <span>2 projects</span>
+            </a>
+            <a href="#art">
+              <span>Art</span>
+              <span>Photography</span>
             </a>
             <a href="#tech">
               <span>Tech</span>
@@ -464,6 +538,37 @@
               </span>
               <h3>Rare Word Explorer</h3>
               <p>Upload text and surface rare words for vocabulary study and Anki cards.</p>
+            </a>
+          </div>
+        </section>
+
+        <section class="project-section" id="art" aria-labelledby="art-title">
+          <div class="section-head">
+            <h2 id="art-title">Art</h2>
+          </div>
+
+          <div class="grid">
+            <a class="card card--photography" href="/photography/">
+              <span class="card__arrow" aria-hidden="true">&#8594;</span>
+              <span class="card__content">
+                <span class="card__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M4 7.5h4l1.3-2h5.4l1.3 2h4v11H4v-11Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <circle cx="12" cy="13" r="3.5" stroke="currentColor" stroke-width="1.8"/>
+                  </svg>
+                </span>
+                <h3>Photography</h3>
+                <p>Streets, gardens, geometry and people — a personal collection of moments worth keeping.</p>
+              </span>
+              <span class="card__image" aria-hidden="true">
+                <img
+                  src="/photography/photos/dscf0218-960.webp"
+                  width="960"
+                  height="640"
+                  alt=""
+                  loading="lazy"
+                />
+              </span>
             </a>
           </div>
         </section>
