@@ -10,7 +10,7 @@ const commit = execFileSync("git", ["rev-parse", "HEAD"], {
   cwd: root,
   encoding: "utf8",
 }).trim();
-const npx = process.platform === "win32" ? "npx.cmd" : "npx";
+const wrangler = path.join(root, "node_modules", "wrangler", "bin", "wrangler.js");
 
 try {
   await copyFile(path.join(root, "index.html"), path.join(stage, "index.html"));
@@ -20,9 +20,9 @@ try {
   });
 
   const result = spawnSync(
-    npx,
+    process.execPath,
     [
-      "wrangler",
+      wrangler,
       "pages",
       "deploy",
       stage,
