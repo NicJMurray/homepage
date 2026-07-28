@@ -1,0 +1,13 @@
+{
+  "name": "njmurray-books-backup",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.103.0"
+  }
+}
