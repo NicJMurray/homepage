@@ -22,10 +22,16 @@ A deployment is verified only after Cloudflare reports success for the pushed co
 
 `projects.json` maps all seven sites to their repositories and Cloudflare projects. The homepage links to stable app domains, so each app can deploy independently without copying its code into this repository.
 
-The homepage, playlists gallery, and photography use Pages Git integrations. Playlist Finder stays on the existing `spotify-playlist-finder-v2` Pages project to preserve its encrypted Google credentials; its GitHub Actions deployment requires a Cloudflare deployment token. The three Workers use GitHub Actions and also need their deployment credentials validated. During the October 2026 setup audit, these four apps still needed token setup; do not infer automation is complete from the mapping alone. Check each app's own `DEPLOYMENT.md` and the current dashboard status before reporting success.
+The homepage, playlists gallery, and photography use Pages Git integrations. Playlist Finder stays on the existing `spotify-playlist-finder-v2` Pages project to preserve its encrypted Google credentials; its GitHub Actions deployment uses an encrypted Cloudflare token. The three Workers use the same GitHub Actions publishing pattern. All four pipelines completed successful production deployments on 23 October 2026 after their deployment credentials were configured. Check each app's own `DEPLOYMENT.md` and the current Actions/dashboard status for future deployments.
 
 Photography is served at `https://photography.njmurray.com/` from `NicJMurray/photography`. This homepage forwards `/photography` and `/photography/*` there with 302 redirects and does not upload the legacy gallery copy.
 
 ## Manual recovery only
 
 With a local Wrangler sign-in, `npm run publish` builds the same `dist/` directory and uploads it to the existing `homepage` project. Commit the source first so that the deployment has an exact Git revision. Prefer fixing the Git build path for ongoing updates. Credentials must never be added to Git.
+
+## Retained legacy resources
+
+The `playlists` Direct Upload Pages project remains a fallback without a custom domain. The older Workers `playlist-finder-proxy` and `spotify-playlist-finder-v2` are retained; the current Finder uses its Pages Functions instead. Do not delete or redeploy these legacy resources as part of ordinary app updates.
+
+`NicJMurray/NDVIChina` contains historical Python research scripts rather than a website. It has no Cloudflare deployment and is not included in the live app catalog.
