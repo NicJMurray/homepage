@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "projects": [
+    {
+      "id": "homepage",
+      "name": "Project Homepage",
+      "category": "home",
+      "url": "https://njmurray.com/",
+      "repository": "https://github.com/NicJMurray/homepage",
+      "deployment": { "type": "pages", "name": "homepage", "productionBranch": "main" }
+    },
+    {
+      "id": "playlist-finder",
+      "name": "Spotify Playlist Finder",
+      "category": "music",
+      "url": "https://playlist.njmurray.com/",
+      "repository": "https://github.com/NicJMurray/spotify-playlist-finder-v2",
+      "deployment": { "type": "pages", "name": "spotify-playlist-finder-v2", "productionBranch": "main" }
+    },
+    {
+      "id": "playlists",
+      "name": "Spotify Playlists",
+      "category": "music",
+      "url": "https://playlists.njmurray.com/",
+      "repository": "https://github.com/NicJMurray/playlists",
+      "deployment": { "type": "pages", "name": "playlists-git", "productionBranch": "main" }
+    },
+    {
+      "id": "books",
+      "name": "Reading List",
+      "category": "literature",
+      "url": "https://books.njmurray.com/",
+      "repository": "https://github.com/NicJMurray/njmurray-books",
+      "deployment": { "type": "worker", "name": "njmurray-books", "productionBranch": "main" }
+    },
+    {
+      "id": "rare-words",
+      "name": "Rare Word Explorer",
+      "category": "literature",
+      "url": "https://rare-words.njmurray.com/",
+      "repository": "https://github.com/NicJMurray/gutenberg-v2",
+      "deployment": { "type": "worker", "name": "gutenberg", "productionBranch": "main" }
+    },
+    {
+      "id": "photography",
+      "name": "Photography",
+      "category": "art",
+      "url": "https://photography.njmurray.com/",
+      "repository": "https://github.com/NicJMurray/photography",
+      "deployment": { "type": "pages", "name": "photography", "productionBranch": "main" }
+    },
+    {
+      "id": "scraper",
+      "name": "Scraper",
+      "category": "tech",
+      "url": "https://scraper.njmurray.com/",
+      "repository": "https://github.com/NicJMurray/london-jobs-watcher_v2",
+      "deployment": { "type": "worker", "name": "london-jobs-watcher", "productionBranch": "main" }
+    }
+  ]
+}

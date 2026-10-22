@@ -1,0 +1,2 @@
+/photography https://photography.njmurray.com/ 302
+/photography/* https://photography.njmurray.com/:splat 302
