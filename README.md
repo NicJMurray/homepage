@@ -28,7 +28,7 @@ npm.cmd run build
 npm.cmd run dev
 ```
 
-`npm run build` validates the catalog, card links, and redirects, then copies an explicit allowlist of public files to `dist/`. Cloudflare Pages must publish `dist`, not the repository root. Development scripts, documentation, Git metadata, dependencies, and old photography assets are not in the published output.
+`npm run build` validates the catalog, card links, and redirects, runs the pool physics tests, then copies an explicit allowlist of public files to `dist/`. Run `npm test` to check the physics on its own. Cloudflare Pages must publish `dist`, not the repository root. Development scripts, documentation, Git metadata, dependencies, and old photography assets are not in the published output.
 
 See [DEVELOPMENT.md](DEVELOPMENT.md) for the Codex editing workflow and [DEPLOYMENT.md](DEPLOYMENT.md) for hosting settings and verification.
 
@@ -36,7 +36,9 @@ See [DEVELOPMENT.md](DEVELOPMENT.md) for the Codex editing workflow and [DEPLOYM
 
 `index.html` contains the static navigation, project cards, inline styles, analytics, and footer year. Each card has a normal HTML title link stretched across the card, so app navigation does not depend on JavaScript. The responsive layout and all app descriptions are maintained here; the catalog validates URLs rather than rendering the page.
 
-The six card symbols are interactive 48px spheres. A small inline Canvas 2D renderer wraps each original SVG onto a coloured, lightly textured sphere, with fixed lighting and drag/tap inertia. It adds no libraries, external assets, or build step. The hemisphere geometry is shared; rendering is capped at 2x pixel density and stops when the sphere is idle or the page is hidden. Drag with a mouse or swipe with a finger to rotate; click/tap or press Space to spin, use arrow keys to turn, and Home to reset. Reduced-motion preferences disable inertia.
+The six card symbols are playable 48px pool balls. Pull back with a mouse or finger and release to shoot in the opposite direction; a small arrow grows and changes from green to red as power increases. Balls roll across the visible screen, bounce off its edges and each other, and disappear into the pocket at the top right. The pocket and loose balls stay in view while scrolling. A reset button beside the pocket restores all balls to their cards. Keyboard users can focus a ball, aim with Left/Right, change power with Up/Down, and shoot with Enter or Space. Escape cancels aiming and Home resets all balls.
+
+A small inline Canvas 2D renderer wraps each original SVG onto ivory spots on a coloured, lightly textured ball. Its orientation follows distance travelled, with fixed lighting and a shared hemisphere geometry. Rendering is capped at 2x pixel density and 60 frames per second, uses one animation loop, and stops when the balls settle or the page is hidden. Reduced-motion preferences suppress the pocket animation; shots still respond to deliberate input. The fixed-step physics includes friction, equal-mass collisions, and swept pocket detection. There are no new libraries, external assets, or runtime requests; the page remains one HTML document. The Node tests exercise the actual inline physics code.
 
 Sphere controls are native buttons, separate from the card links. Keep them as siblings of the links rather than nesting interactive controls inside an anchor. A sphere gesture must never navigate, while the rest of the card remains a normal link. Without JavaScript or canvas support, the original SVG remains visible and the whole card still opens its app.
 
@@ -51,6 +53,7 @@ Photography now belongs to its own repository and domain. The homepage loads its
 | `_headers` | Cloudflare response headers and cache directives |
 | `_redirects` | Legacy photography redirects |
 | `scripts/check-site.mjs` | Catalog, links, and redirect validation |
+| `test/pool-physics.test.cjs` | Shot, collision, pocket, and rolling physics checks |
 | `scripts/build-site.mjs` | Allowlisted production output in `dist/` |
 | `scripts/publish-site.mjs` | Manual recovery deployment of the same built output |
 | `AGENTS.md` | Instructions for future Codex work |

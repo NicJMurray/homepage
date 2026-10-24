@@ -219,8 +219,86 @@
         cursor: grabbing;
       }
 
+      .card__slot {
+        display: block;
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        margin-bottom: 42px;
+      }
+
+      .pool-layer {
+        position: fixed;
+        z-index: 20;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .pool-layer .pool-ball {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 0;
+        pointer-events: auto;
+        will-change: transform;
+      }
+
+      .pool-pocket {
+        position: absolute;
+        top: max(12px, env(safe-area-inset-top));
+        right: max(12px, env(safe-area-inset-right));
+        width: 56px;
+        height: 56px;
+        border: 4px solid #4a4537;
+        border-radius: 50%;
+        background: radial-gradient(circle at 55% 65%, #111815 8%, #020705 66%);
+        box-shadow: inset 2px 4px 7px #000, 0 1px 0 #ffffffb3, 0 2px 5px #171a1f24;
+      }
+
+      .pool-reset {
+        position: absolute;
+        z-index: 4;
+        top: max(24px, env(safe-area-inset-top));
+        right: calc(max(12px, env(safe-area-inset-right)) + 68px);
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        color: var(--green);
+        background: var(--surface);
+        font: 24px/1 Georgia, serif;
+        cursor: pointer;
+        pointer-events: auto;
+      }
+
+      .pool-reset::after {
+        position: absolute;
+        inset: -6px;
+        content: "";
+      }
+
+      .pool-reset:focus-visible {
+        outline: 3px solid var(--blue);
+        outline-offset: 3px;
+      }
+
+      .pool-aim {
+        position: absolute;
+        width: 36px;
+        height: 18px;
+        overflow: visible;
+        transform-origin: 0 50%;
+        filter: drop-shadow(0 1px 1px #fff);
+      }
+
       .card__icon:disabled {
         pointer-events: none;
+      }
+
+      .card__icon[hidden] {
+        display: none;
       }
 
       .card__icon:focus-visible {
@@ -318,7 +396,8 @@
         padding: 28px;
       }
 
-      .card--photography .card__icon {
+      .card--photography .card__icon,
+      .card--photography .card__slot {
         margin-bottom: auto;
       }
 
@@ -473,7 +552,7 @@
       </header>
 
       <main>
-        <p class="sr-only" id="sphere-help">Drag or swipe to rotate. Click, tap, or press Space to spin. Use the arrow keys to turn, or Home to reset.</p>
+        <p class="sr-only" id="sphere-help">Pull back from a ball and release to shoot in the opposite direction. Longer pulls are stronger. Left and right arrow keys aim, up and down change power, and Enter or Space shoots. Escape cancels; Home resets all balls.</p>
         <section class="project-section" id="music" aria-labelledby="music-title">
           <div class="section-head">
             <h2 id="music-title">Music</h2>
@@ -482,7 +561,7 @@
           <div class="grid">
             <article class="card card--music">
               <span class="card__arrow" aria-hidden="true">&#8594;</span>
-              <button class="card__icon" type="button" disabled aria-label="Rotate Spotify Playlist Finder icon" aria-describedby="sphere-help" title="Drag to rotate · Click to spin">
+              <button class="card__icon" type="button" disabled aria-label="Shoot Spotify Playlist Finder ball" aria-describedby="sphere-help" title="Pull back and release to shoot">
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
                   <path d="M9 18V5l11-2v13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                   <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.8"/>
@@ -495,7 +574,7 @@
 
             <article class="card card--playlists">
               <span class="card__arrow" aria-hidden="true">&#8594;</span>
-              <button class="card__icon" type="button" disabled aria-label="Rotate Spotify Playlists icon" aria-describedby="sphere-help" title="Drag to rotate · Click to spin">
+              <button class="card__icon" type="button" disabled aria-label="Shoot Spotify Playlists ball" aria-describedby="sphere-help" title="Pull back and release to shoot">
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
                   <path d="M5 7h14M5 12h14M5 17h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
                   <path d="M17 16v-4l3-1v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -516,7 +595,7 @@
           <div class="grid">
             <article class="card card--books">
               <span class="card__arrow" aria-hidden="true">&#8594;</span>
-              <button class="card__icon" type="button" disabled aria-label="Rotate Reading List icon" aria-describedby="sphere-help" title="Drag to rotate · Click to spin">
+              <button class="card__icon" type="button" disabled aria-label="Shoot Reading List ball" aria-describedby="sphere-help" title="Pull back and release to shoot">
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
                   <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
                   <path d="M4 5.5A2.5 2.5 0 0 1 6.5 8H20" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
@@ -528,7 +607,7 @@
 
             <article class="card card--words">
               <span class="card__arrow" aria-hidden="true">&#8594;</span>
-              <button class="card__icon" type="button" disabled aria-label="Rotate Rare Word Explorer icon" aria-describedby="sphere-help" title="Drag to rotate · Click to spin">
+              <button class="card__icon" type="button" disabled aria-label="Shoot Rare Word Explorer ball" aria-describedby="sphere-help" title="Pull back and release to shoot">
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
                   <path d="M4 5h16M4 12h10M4 19h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
                   <path d="m15 19 5-5m0 5-5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -549,7 +628,7 @@
             <article class="card card--photography">
               <span class="card__arrow" aria-hidden="true">&#8594;</span>
               <span class="card__content">
-                <button class="card__icon" type="button" disabled aria-label="Rotate Photography icon" aria-describedby="sphere-help" title="Drag to rotate · Click to spin">
+                <button class="card__icon" type="button" disabled aria-label="Shoot Photography ball" aria-describedby="sphere-help" title="Pull back and release to shoot">
                   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
                     <path d="M4 7.5h4l1.3-2h5.4l1.3 2h4v11H4v-11Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
                     <circle cx="12" cy="13" r="3.5" stroke="currentColor" stroke-width="1.8"/>
@@ -579,7 +658,7 @@
           <div class="grid">
             <article class="card card--scraper">
               <span class="card__arrow" aria-hidden="true">&#8594;</span>
-              <button class="card__icon" type="button" disabled aria-label="Rotate Scraper icon" aria-describedby="sphere-help" title="Drag to rotate · Click to spin">
+              <button class="card__icon" type="button" disabled aria-label="Shoot Scraper ball" aria-describedby="sphere-help" title="Pull back and release to shoot">
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
                   <path d="M5 7h14M7 12h10M10 17h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
                   <path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
@@ -597,40 +676,330 @@
       </footer>
     </div>
 
+    <div class="pool-layer" id="pool-layer" hidden>
+      <span class="pool-pocket" id="pool-pocket" role="img" aria-label="Pocket in the top-right corner"></span>
+      <button class="pool-reset" id="pool-reset" type="button" hidden aria-label="Reset all balls" title="Reset balls">↺</button>
+      <div class="pool-aim" id="pool-aim" hidden aria-hidden="true">
+        <svg viewBox="0 0 120 20" preserveAspectRatio="none" width="100%" height="100%">
+          <defs>
+            <linearGradient id="pool-power">
+              <stop offset="0" stop-color="#174f43" stop-opacity="0.25"/>
+              <stop id="pool-power-tip" offset="1" stop-color="#36884f"/>
+            </linearGradient>
+          </defs>
+          <path d="M3 10h108m-10-7 10 7-10 7" fill="none" stroke="url(#pool-power)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="sr-only" id="pool-status" aria-live="polite"></span>
+    </div>
+
+    <script id="pool-physics">
+      // Small, DOM-independent pool simulation, shared by every ball.
+      class PoolWorld {
+        constructor(radius = 24) {
+          this.radius = radius;
+          this.width = 800;
+          this.height = 600;
+          this.maxPull = 140;
+          this.maxSpeed = 1400;
+          this.deceleration = 170;
+          this.restitution = 0.94;
+          this.pocket = { x: -1000, y: -1000, radius: 24 };
+          this.balls = [];
+        }
+        add(x, y) {
+          const ball = { x, y, vx: 0, vy: 0, q: [0, 0, 0, 1],
+            loose: false, held: false, potted: false, visible: true, dirty: true };
+          this.balls.push(ball);
+          return ball;
+        }
+        activate(ball) {
+          if (ball.loose) return;
+          ball.loose = true;
+          this.onActivate?.(ball);
+        }
+        shoot(ball, pullX, pullY) {
+          const distance = Math.hypot(pullX, pullY);
+          if (distance < 4 || ball.potted) return false;
+          this.activate(ball);
+          ball.held = false;
+          const speed = Math.min(distance / this.maxPull, 1) * this.maxSpeed;
+          ball.vx = -pullX / distance * speed;
+          ball.vy = -pullY / distance * speed;
+          return true;
+        }
+        moving() {
+          return this.balls.some((b) => b.loose && !b.potted && !b.held && (b.vx || b.vy));
+        }
+        reachesPocket(ball, oldX, oldY) {
+          const dx = ball.x - oldX, dy = ball.y - oldY;
+          const length2 = dx * dx + dy * dy;
+          const t = length2 ? Math.max(0, Math.min(1,
+            ((this.pocket.x - oldX) * dx + (this.pocket.y - oldY) * dy) / length2)) : 0;
+          return Math.hypot(oldX + t * dx - this.pocket.x,
+            oldY + t * dy - this.pocket.y) < this.pocket.radius;
+        }
+        pot(ball) {
+          if (ball.potted) return;
+          ball.potted = true;
+          ball.vx = ball.vy = 0;
+          this.onPot?.(ball);
+        }
+        bounce(ball) {
+          const r = this.radius;
+          if (ball.x < r) { ball.x = r; if (ball.vx < 0) ball.vx *= -0.86; }
+          if (ball.x > this.width - r) { ball.x = this.width - r; if (ball.vx > 0) ball.vx *= -0.86; }
+          if (ball.y < r) { ball.y = r; if (ball.vy < 0) ball.vy *= -0.86; }
+          if (ball.y > this.height - r) { ball.y = this.height - r; if (ball.vy > 0) ball.vy *= -0.86; }
+        }
+        roll(ball, dx, dy) {
+          const distance = Math.hypot(dx, dy);
+          if (distance < 0.001) return;
+          const s = Math.sin(distance / (2 * this.radius)) / distance;
+          const a = dy * s, b = dx * s, c = Math.cos(distance / (2 * this.radius));
+          const [x, y, z, w] = ball.q;
+          const q = [c * x + a * w + b * z, c * y + b * w - a * z,
+            c * z + a * y - b * x, c * w - a * x - b * y];
+          const length = Math.hypot(...q);
+          ball.q = q.map((v) => v / length);
+          ball.dirty = true;
+        }
+        step(dt) {
+          for (const b of this.balls) {
+            b.oldX = b.x;
+            b.oldY = b.y;
+            if (!b.loose || b.potted || b.held) continue;
+            b.x += b.vx * dt;
+            b.y += b.vy * dt;
+            if (this.reachesPocket(b, b.oldX, b.oldY)) { this.pot(b); continue; }
+            this.bounce(b);
+            const speed = Math.hypot(b.vx, b.vy);
+            const next = Math.max(0, speed - this.deceleration * dt);
+            const damping = next < 6 ? 0 : next / speed;
+            b.vx *= damping;
+            b.vy *= damping;
+          }
+          // Two cheap passes separate small clusters without adding energy.
+          for (let pass = 0; pass < 2; pass++) {
+            for (let i = 0; i < this.balls.length; i++) {
+              const a = this.balls[i];
+              if (a.potted || !a.visible) continue;
+              for (let j = i + 1; j < this.balls.length; j++) {
+                const b = this.balls[j];
+                if (b.potted || !b.visible || (!a.loose && !b.loose)) continue;
+                const dx = b.x - a.x, dy = b.y - a.y;
+                const distance = Math.hypot(dx, dy);
+                if (distance >= this.radius * 2) continue;
+                const invA = a.held ? 0 : 1, invB = b.held ? 0 : 1;
+                const inverseMass = invA + invB;
+                if (!inverseMass) continue;
+                this.activate(a);
+                this.activate(b);
+                const nx = distance ? dx / distance : 1, ny = distance ? dy / distance : 0;
+                const correction = (this.radius * 2 - distance) / inverseMass;
+                a.x -= nx * correction * invA;
+                a.y -= ny * correction * invA;
+                b.x += nx * correction * invB;
+                b.y += ny * correction * invB;
+                const approach = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+                if (approach >= 0) continue;
+                const impulse = -(1 + this.restitution) * approach / inverseMass;
+                a.vx -= impulse * nx * invA;
+                a.vy -= impulse * ny * invA;
+                b.vx += impulse * nx * invB;
+                b.vy += impulse * ny * invB;
+              }
+            }
+          }
+          for (const b of this.balls) {
+            if (!b.loose || b.potted || b.held) continue;
+            this.bounce(b);
+            if (this.reachesPocket(b, b.oldX, b.oldY)) this.pot(b);
+            else this.roll(b, b.x - b.oldX, b.y - b.oldY);
+          }
+        }
+      }
+    </script>
+
     <script>
       const year = new Date().getFullYear();
       document.getElementById("year").textContent = year;
 
-      // Six tiny software-rendered spheres: no library, WebGL context, or idle loop.
       (() => {
         if (!window.PointerEvent) return;
-        const tau = Math.PI * 2;
+        const tau = Math.PI * 2, radius = 24;
         const size = Math.round(48 * Math.min(window.devicePixelRatio || 1, 2));
         const geometry = new Float32Array(size * size * 5);
         const alpha = new Uint8ClampedArray(size * size);
         const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+        const layer = document.getElementById('pool-layer');
+        const pocket = document.getElementById('pool-pocket');
+        const arrow = document.getElementById('pool-aim');
+        const tip = document.getElementById('pool-power-tip');
+        const reset = document.getElementById('pool-reset');
+        const status = document.getElementById('pool-status');
+        const buttons = [...document.querySelectorAll('.card__icon')];
+        const world = new PoolWorld(radius);
+        let aim = null, keyAim = null, raf = 0, lastTime = 0, accumulator = 0, lastPaint = 0;
 
-        // The visible hemisphere and its fixed light are shared by all six icons.
-        for (let y = 0; y < size; y++) {
-          for (let x = 0; x < size; x++) {
-            const nx = (x + 0.5) * 2 / size - 1;
-            const ny = 1 - (y + 0.5) * 2 / size;
-            const radius = nx * nx + ny * ny;
-            if (radius >= 1) continue;
-            const nz = Math.sqrt(1 - radius);
-            const i = y * size + x;
-            geometry.set([nx, ny, nz,
-              0.4 + 0.6 * Math.max(0, -nx * 0.45 + ny * 0.6 + nz * 0.66),
-              0.38 * Math.pow(Math.max(0, -nx * 0.23 + ny * 0.32 + nz * 0.919), 40)], i * 5);
-            alpha[i] = Math.min(1, (1 - Math.sqrt(radius)) * size / 2) * 255;
+        function place(ball) {
+          ball.button.style.transform = `translate3d(${ball.x - radius}px, ${ball.y - radius}px, 0)`;
+        }
+        function dockedPositions() {
+          for (const ball of world.balls) {
+            if (ball.loose || ball.potted) continue;
+            const rect = ball.button.getBoundingClientRect();
+            ball.x = rect.left + radius;
+            ball.y = rect.top + radius;
+            ball.visible = !!ball.paint && ball.x >= radius && ball.x <= world.width - radius
+              && ball.y >= radius && ball.y <= world.height - radius;
           }
         }
+        function measure() {
+          if (layer.hidden) return;
+          world.width = layer.clientWidth;
+          world.height = layer.clientHeight;
+          const rect = pocket.getBoundingClientRect();
+          world.pocket = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2, radius: 24 };
+          dockedPositions();
+          for (const ball of world.balls) {
+            if (!ball.loose || ball.potted) continue;
+            ball.x = Math.max(radius, Math.min(world.width - radius, ball.x));
+            ball.y = Math.max(radius, Math.min(world.height - radius, ball.y));
+            place(ball);
+          }
+        }
+        world.onActivate = (ball) => {
+          const slot = document.createElement('span');
+          slot.className = 'card__slot';
+          slot.setAttribute('aria-hidden', 'true');
+          const focused = document.activeElement === ball.button;
+          ball.button.before(slot);
+          ball.slot = slot;
+          layer.append(ball.button);
+          ball.button.classList.add('pool-ball');
+          ball.button.style.backgroundColor = ball.color;
+          ball.visible = true;
+          place(ball);
+          reset.hidden = false;
+          if (focused) ball.button.focus({ preventScroll: true });
+        };
+        world.onPot = (ball) => {
+          ball.button.disabled = true;
+          const count = world.balls.filter((b) => b.potted).length;
+          status.textContent = `${ball.label} potted. ${count} of ${buttons.length} balls.`;
+          if (reducedMotion.matches) { ball.button.hidden = true; return; }
+          ball.sink = ball.button.animate([
+            { transform: ball.button.style.transform, opacity: 1 },
+            { transform: `translate3d(${world.pocket.x - radius}px, ${world.pocket.y - radius}px, 0) scale(0.08)`, opacity: 0 },
+          ], { duration: 220, easing: 'ease-in', fill: 'forwards' });
+          ball.sink.finished.then(() => { if (ball.potted) ball.button.hidden = true; }, () => {});
+        };
+        function tick(now) {
+          raf = 0;
+          dockedPositions();
+          accumulator = Math.min(accumulator + (now - lastTime) / 1000, 0.05);
+          lastTime = now;
+          while (accumulator >= 1 / 120) {
+            world.step(1 / 120);
+            accumulator -= 1 / 120;
+          }
+          const moving = world.moving();
+          const paintFrame = now - lastPaint >= 1000 / 60 - 1 || !moving;
+          for (const ball of world.balls) {
+            if (!ball.loose || ball.potted) continue;
+            place(ball);
+            if (paintFrame && ball.dirty) { ball.paint(); ball.dirty = false; }
+          }
+          if (paintFrame) lastPaint = now;
+          if (moving) raf = requestAnimationFrame(tick);
+        }
+        function wake() {
+          if (raf || !world.moving()) return;
+          lastTime = performance.now();
+          accumulator = 0;
+          raf = requestAnimationFrame(tick);
+        }
+        function cancelAim() {
+          const previous = aim;
+          aim = keyAim = null;
+          arrow.hidden = true;
+          if (!previous) return;
+          previous.ball.held = false;
+          if (previous.ball.button.hasPointerCapture(previous.id)) previous.ball.button.releasePointerCapture(previous.id);
+        }
+        function showAim(ball, pullX, pullY) {
+          const distance = Math.hypot(pullX, pullY);
+          if (distance < 4) { arrow.hidden = true; return; }
+          const power = Math.min(distance / world.maxPull, 1);
+          const nx = -pullX / distance, ny = -pullY / distance;
+          arrow.hidden = false;
+          arrow.style.left = `${ball.x + nx * (radius + 7)}px`;
+          arrow.style.top = `${ball.y + ny * (radius + 7)}px`;
+          arrow.style.width = `${36 + power * 52}px`;
+          arrow.style.height = `${16 + power * 4}px`;
+          arrow.style.transform = `translateY(-50%) rotate(${Math.atan2(ny, nx)}rad)`;
+          arrow.style.opacity = 0.5 + power * 0.5;
+          tip.setAttribute('stop-color', `hsl(${135 - power * 128} 65% 42%)`);
+        }
+        function resetAll() {
+          const focused = document.activeElement;
+          cancelAim();
+          cancelAnimationFrame(raf);
+          raf = 0;
+          for (const ball of world.balls) {
+            ball.potted = ball.held = ball.loose = false;
+            ball.vx = ball.vy = 0;
+            ball.q = [0, 0, 0, 1];
+            ball.sink?.cancel();
+            if (ball.slot) { ball.slot.replaceWith(ball.button); ball.slot = null; }
+            ball.button.classList.remove('pool-ball');
+            ball.button.style.removeProperty('transform');
+            ball.button.style.removeProperty('background-color');
+            ball.button.hidden = ball.button.disabled = false;
+            ball.paint?.();
+            ball.dirty = false;
+          }
+          reset.hidden = true;
+          measure();
+          status.textContent = 'All balls reset.';
+          const target = focused === reset ? world.balls.find((b) => b.visible)?.button : focused;
+          if (target?.classList.contains('card__icon')) target.focus({ preventScroll: true });
+        }
+        function pause() {
+          cancelAim();
+          cancelAnimationFrame(raf);
+          raf = 0;
+          for (const ball of world.balls) ball.vx = ball.vy = 0;
+        }
+        reset.addEventListener('click', resetAll);
+        window.addEventListener('resize', () => { cancelAim(); measure(); });
+        window.visualViewport?.addEventListener('resize', () => { cancelAim(); measure(); });
+        window.addEventListener('blur', pause);
+        document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
+        document.addEventListener('keydown', (event) => { if (event.key === 'Escape') cancelAim(); });
 
-        document.querySelectorAll('.card__icon').forEach((button) => {
-          const svg = button.querySelector('svg');
-          const source = svg.cloneNode(true);
+        // Shared, softly lit visible hemisphere. Only textures rotate, not the light.
+        for (let y = 0; y < size; y++) {
+          for (let x = 0; x < size; x++) {
+            const nx = (x + 0.5) * 2 / size - 1, ny = 1 - (y + 0.5) * 2 / size;
+            const squared = nx * nx + ny * ny;
+            if (squared >= 1) continue;
+            const nz = Math.sqrt(1 - squared), i = y * size + x;
+            geometry.set([nx, ny, nz,
+              0.45 + 0.55 * Math.max(0, -nx * 0.45 + ny * 0.6 + nz * 0.66),
+              0.5 * Math.pow(Math.max(0, -nx * 0.23 + ny * 0.32 + nz * 0.919), 55)], i * 5);
+            alpha[i] = Math.min(1, (1 - Math.sqrt(squared)) * size / 2) * 255;
+          }
+        }
+        buttons.forEach((button) => {
+          const rect = button.getBoundingClientRect();
+          const ball = world.add(rect.left + radius, rect.top + radius);
+          Object.assign(ball, { button, label: button.closest('.card').querySelector('h3').textContent,
+            color: getComputedStyle(button).backgroundColor });
+          const svg = button.querySelector('svg'), source = svg.cloneNode(true);
           source.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-          source.setAttribute('color', '#fff');
+          source.setAttribute('color', ball.color);
           source.setAttribute('width', '64');
           source.setAttribute('height', '64');
           const image = new Image();
@@ -644,45 +1013,44 @@
             canvas.setAttribute('aria-hidden', 'true');
             const context = canvas.getContext('2d');
             if (!ink || !context) return;
-            ink.fillStyle = getComputedStyle(button).backgroundColor;
+            ink.fillStyle = ball.color;
             ink.fillRect(0, 0, 256, 128);
             const grain = ink.getImageData(0, 0, 256, 128);
             for (let i = 0; i < grain.data.length; i += 4) {
-              const noise = (Math.random() - 0.5) * 14;
+              const noise = (Math.random() - 0.5) * 4;
               for (let c = 0; c < 3; c++) grain.data[i + c] += noise;
             }
             ink.putImageData(grain, 0, 0);
-            ink.fillStyle = 'rgba(255,255,255,0.2)';
+            ink.fillStyle = 'rgba(255,255,255,0.12)';
             for (let y = 16; y < 128; y += 16) {
               for (let x = 8 + (y % 32 ? 8 : 0); x < 256; x += 16) {
-                ink.beginPath();
-                ink.arc(x, y, 0.9, 0, tau);
-                ink.fill();
+                ink.beginPath(); ink.arc(x, y, 0.7, 0, tau); ink.fill();
               }
             }
-            // The original symbol is painted onto opposite sides of the sphere.
-            for (const x of [-20, 108, 236]) ink.drawImage(image, x, 44, 40, 40);
+            // Pool-style ivory spots carry the existing symbols on opposite sides.
+            for (const center of [0, 128, 256]) {
+              ink.fillStyle = '#fffef9';
+              ink.beginPath(); ink.arc(center, 64, 27, 0, tau); ink.fill();
+              ink.drawImage(image, center - 17, 47, 34, 34);
+            }
             const pixels = ink.getImageData(0, 0, 256, 128).data;
             const frame = context.createImageData(size, size);
             for (let i = 0; i < alpha.length; i++) frame.data[i * 4 + 3] = alpha[i];
-            let yaw = 0, pitch = 0, vx = 0, vy = 0, raf = 0, lastTime = 0;
-            let drag = null, skipClick = false;
-
             function paint() {
-              const cy = Math.cos(yaw), sy = Math.sin(yaw);
-              const cp = Math.cos(pitch), sp = Math.sin(pitch);
+              const [x, y, z, w] = ball.q;
+              const m00 = 1 - 2 * (y * y + z * z), m10 = 2 * (x * y + z * w), m20 = 2 * (x * z - y * w);
+              const m01 = 2 * (x * y - z * w), m11 = 1 - 2 * (x * x + z * z), m21 = 2 * (y * z + x * w);
+              const m02 = 2 * (x * z + y * w), m12 = 2 * (y * z - x * w), m22 = 1 - 2 * (x * x + y * y);
               for (let i = 0; i < alpha.length; i++) {
                 if (!alpha[i]) continue;
-                const g = i * 5;
-                const x = cy * geometry[g] - sy * geometry[g + 2];
-                const z = sy * geometry[g] + cy * geometry[g + 2];
-                const y = cp * geometry[g + 1] + sp * z;
-                const u = (Math.atan2(x, cp * z - sp * geometry[g + 1]) / tau + 0.5) * 256;
-                const v = (0.5 - Math.asin(Math.max(-1, Math.min(1, y))) / Math.PI) * 127;
-                const tx = Math.floor(u), ty = Math.floor(v);
-                const fx = u - tx, fy = v - ty;
-                const a = (ty * 256 + (tx & 255)) * 4;
-                const b = (ty * 256 + ((tx + 1) & 255)) * 4;
+                const g = i * 5, nx = geometry[g], ny = geometry[g + 1], nz = geometry[g + 2];
+                const lx = m00 * nx + m10 * ny + m20 * nz;
+                const ly = m01 * nx + m11 * ny + m21 * nz;
+                const lz = m02 * nx + m12 * ny + m22 * nz;
+                const u = (Math.atan2(lx, lz) / tau + 0.5) * 256;
+                const v = (0.5 - Math.asin(Math.max(-1, Math.min(1, ly))) / Math.PI) * 127;
+                const tx = Math.floor(u), ty = Math.floor(v), fx = u - tx, fy = v - ty;
+                const a = (ty * 256 + (tx & 255)) * 4, b = (ty * 256 + ((tx + 1) & 255)) * 4;
                 const d = (Math.min(ty + 1, 127) * 256 + (tx & 255)) * 4;
                 const e = (Math.min(ty + 1, 127) * 256 + ((tx + 1) & 255)) * 4;
                 for (let c = 0; c < 3; c++) {
@@ -694,88 +1062,63 @@
               }
               context.putImageData(frame, 0, 0);
             }
-
-            function tick(now) {
-              raf = 0;
-              const step = Math.min((now - lastTime) / (1000 / 60), 2);
-              lastTime = now;
-              if (reducedMotion.matches || document.hidden) vx = vy = 0;
-              if (!drag) {
-                yaw += vx * step;
-                pitch += vy * step;
-                const friction = Math.pow(0.91, step);
-                vx *= friction;
-                vy *= friction;
-              }
-              paint();
-              if (!drag && Math.abs(vx) + Math.abs(vy) > 0.002) raf = requestAnimationFrame(tick);
-            }
-            function wake() {
-              if (!raf) {
-                lastTime = performance.now();
-                raf = requestAnimationFrame(tick);
-              }
-            }
-            function stop() {
-              cancelAnimationFrame(raf);
-              raf = vx = vy = 0;
-            }
-
+            ball.paint = paint;
             button.addEventListener('pointerdown', (event) => {
-              if (!event.isPrimary || event.button !== 0) return;
-              stop();
-              skipClick = false;
-              drag = { id: event.pointerId, x: event.clientX, y: event.clientY,
-                startX: event.clientX, startY: event.clientY, time: performance.now(), moved: false };
+              if (aim || ball.potted || !event.isPrimary || event.button !== 0) return;
+              measure();
+              keyAim = null;
+              ball.vx = ball.vy = 0;
+              world.activate(ball);
+              ball.held = true;
+              aim = { ball, id: event.pointerId, startX: event.clientX, startY: event.clientY };
               button.setPointerCapture(event.pointerId);
             });
             button.addEventListener('pointermove', (event) => {
-              if (!drag || event.pointerId !== drag.id) return;
-              const now = performance.now();
-              const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
-              const dt = Math.max(now - drag.time, 8);
-              yaw += dx * 0.045;
-              pitch += dy * 0.045;
-              vx = Math.max(-0.4, Math.min(0.4, dx * 0.045 * 16 / dt));
-              vy = Math.max(-0.4, Math.min(0.4, dy * 0.045 * 16 / dt));
-              drag.moved ||= Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) > 3;
-              Object.assign(drag, { x: event.clientX, y: event.clientY, time: now });
-              wake();
+              if (aim?.ball !== ball || aim.id !== event.pointerId) return;
+              showAim(ball, event.clientX - aim.startX, event.clientY - aim.startY);
             });
             function release(event) {
-              if (!drag || event.pointerId !== drag.id) return;
-              skipClick = drag.moved;
-              if (event.type !== 'pointerup' || performance.now() - drag.time > 80) vx = vy = 0;
-              drag = null;
-              if (button.hasPointerCapture(event.pointerId)) button.releasePointerCapture(event.pointerId);
-              wake();
+              if (aim?.ball !== ball || aim.id !== event.pointerId) return;
+              const pullX = event.clientX - aim.startX, pullY = event.clientY - aim.startY;
+              cancelAim();
+              if (event.type === 'pointerup') { world.shoot(ball, pullX, pullY); wake(); }
             }
             button.addEventListener('pointerup', release);
             button.addEventListener('pointercancel', release);
-            button.addEventListener('lostpointercapture', release);
-            button.addEventListener('click', () => {
-              if (skipClick) { skipClick = false; return; }
-              if (reducedMotion.matches) yaw += Math.PI;
-              else { vx = 0.56; vy = -0.018; }
-              wake();
+            button.addEventListener('lostpointercapture', (event) => {
+              if (aim?.ball === ball && aim.id === event.pointerId) cancelAim();
+            });
+            button.addEventListener('click', (event) => {
+              if (event.detail !== 0 || aim || ball.potted) return;
+              measure();
+              const shot = keyAim?.ball === ball ? keyAim : {
+                angle: Math.atan2(world.pocket.y - ball.y, world.pocket.x - ball.x), power: 0.36 };
+              const pull = shot.power * world.maxPull;
+              world.shoot(ball, -Math.cos(shot.angle) * pull, -Math.sin(shot.angle) * pull);
+              cancelAim(); wake();
             });
             button.addEventListener('keydown', (event) => {
-              if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home'].includes(event.key)) return;
-              event.preventDefault();
-              stop();
-              if (event.key === 'Home') yaw = pitch = 0;
-              if (event.key === 'ArrowLeft') yaw -= 0.35;
-              if (event.key === 'ArrowRight') yaw += 0.35;
-              if (event.key === 'ArrowUp') pitch -= 0.35;
-              if (event.key === 'ArrowDown') pitch += 0.35;
-              wake();
+              if (event.key === 'Home') { event.preventDefault(); resetAll(); return; }
+              if (aim || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+              event.preventDefault(); measure();
+              ball.vx = ball.vy = 0;
+              if (keyAim?.ball !== ball) keyAim = { ball, angle: Math.atan2(world.pocket.y - ball.y, world.pocket.x - ball.x), power: 0.36 };
+              if (event.key === 'ArrowLeft') keyAim.angle -= 0.12;
+              if (event.key === 'ArrowRight') keyAim.angle += 0.12;
+              if (event.key === 'ArrowUp') keyAim.power = Math.min(1, keyAim.power + 0.08);
+              if (event.key === 'ArrowDown') keyAim.power = Math.max(0.08, keyAim.power - 0.08);
+              showAim(ball, -Math.cos(keyAim.angle) * keyAim.power * world.maxPull,
+                -Math.sin(keyAim.angle) * keyAim.power * world.maxPull);
+              status.textContent = `Power ${Math.round(keyAim.power * 100)} percent. Left and right aim; Enter shoots.`;
             });
-            document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
-            paint();
+            button.addEventListener('blur', () => { if (keyAim?.ball === ball) { keyAim = null; arrow.hidden = true; } });
+            paint(); ball.dirty = false;
             svg.style.display = 'none';
             button.append(canvas);
             button.disabled = false;
             button.dataset.sphereReady = '';
+            layer.hidden = false;
+            measure();
           };
           image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(source.outerHTML);
         });

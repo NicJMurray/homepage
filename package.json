@@ -6,7 +6,8 @@
     "dev": "npm run build && wrangler pages dev dist",
     "photos:sync": "node scripts/sync-photos.mjs",
     "check": "node scripts/check-site.mjs",
-    "build": "npm run check && node scripts/build-site.mjs",
+    "test": "node --test",
+    "build": "npm run check && npm test && node scripts/build-site.mjs",
     "publish": "npm run build && node scripts/publish-site.mjs"
   },
   "devDependencies": {
