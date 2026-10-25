@@ -284,6 +284,39 @@
         outline-offset: 3px;
       }
 
+      .pool-clock {
+        position: absolute;
+        top: calc(max(12px, env(safe-area-inset-top)) + 66px);
+        right: max(12px, env(safe-area-inset-right));
+        padding: 4px 8px;
+        border-radius: 6px;
+        background: var(--surface);
+        color: var(--green);
+        font-size: 12px;
+        font-variant-numeric: tabular-nums;
+        box-shadow: 0 1px 5px #171a1f18;
+      }
+
+      .pool-results {
+        width: min(340px, calc(100vw - 32px));
+        padding: 30px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        color: var(--ink);
+        background: var(--surface);
+        text-align: center;
+        box-shadow: var(--shadow);
+      }
+      .pool-results::backdrop { background: #172a2340; }
+      .pool-results h2 { font: 30px/1.2 Georgia, serif; margin: 0 0 12px; }
+      .pool-results .pool-time { font-size: 42px; line-height: 1.2; margin: 0 0 12px; font-variant-numeric: tabular-nums; }
+      .pool-results p { font-size: 13px; color: var(--muted); }
+      .pool-results button { padding: 10px 16px; min-height: 44px; border-radius: 7px; border: 1px solid var(--green); cursor: pointer; }
+      .pool-results button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+      #pool-again { background: var(--green); color: white; }
+      #pool-dismiss { background: transparent; color: var(--green); margin-left: 6px; }
+      .pool-confetti { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
+
       .pool-aim {
         position: absolute;
         width: 36px;
@@ -708,8 +741,33 @@
           <path d="M3 10h108m-10-7 10 7-10 7" fill="none" stroke="url(#pool-power)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
+      <output class="pool-clock" id="pool-clock" aria-label="Round elapsed time" hidden>0.00 s</output>
       <span class="sr-only" id="pool-status" aria-live="polite"></span>
     </div>
+
+    <canvas class="pool-confetti" id="pool-confetti" hidden aria-hidden="true"></canvas>
+    <dialog class="pool-results" id="pool-results" aria-labelledby="pool-results-title" aria-describedby="pool-best">
+      <h2 id="pool-results-title">All potted!</h2>
+      <p class="pool-time" id="pool-time"></p>
+      <p id="pool-best"></p>
+      <p id="pool-record"></p>
+      <button id="pool-again" type="button" autofocus>Play again</button>
+      <button id="pool-dismiss" type="button">Close</button>
+    </dialog>
+
+    <script id="pool-round">
+      class PoolRound {
+        constructor(clock = () => performance.now()) { this.clock = clock; this.reset(); }
+        reset() { this.started = null; this.finished = null; }
+        start() { if (this.started === null) this.started = this.clock(); }
+        elapsed() { return this.started === null ? 0 : ((this.finished ?? this.clock()) - this.started) / 1000; }
+        finish() {
+          if (this.started === null || this.finished !== null) return null;
+          this.finished = this.clock();
+          return this.elapsed();
+        }
+      }
+    </script>
 
     <script id="pool-physics">
       // Small, DOM-independent pool simulation, shared by every ball.
@@ -789,6 +847,7 @@
             if (!b.loose || b.potted || b.held) continue;
             b.x += b.vx * dt;
             b.y += b.vy * dt;
+            if (b.x !== b.oldX || b.y !== b.oldY) this.onMove?.();
             if (this.reachesPocket(b, b.oldX, b.oldY)) { this.pot(b); continue; }
             this.bounce(b);
             const speed = Math.hypot(b.vx, b.vy);
@@ -858,6 +917,78 @@
         const status = document.getElementById('pool-status');
         const buttons = [...document.querySelectorAll('.card__icon')];
         const world = new PoolWorld(radius);
+        const round = new PoolRound();
+        const clock = document.getElementById('pool-clock');
+        const results = document.getElementById('pool-results');
+        const confetti = document.getElementById('pool-confetti');
+        const bestKey = `njmurray:pool:best:v1:${buttons.length}`;
+        let clockInterval = 0, confettiFrame = 0;
+        function updateClock() { clock.textContent = `${round.elapsed().toFixed(2)} s`; }
+        function stopConfetti() {
+          cancelAnimationFrame(confettiFrame);
+          confettiFrame = 0;
+          confetti.hidden = true;
+        }
+        function celebrate() {
+          if (reducedMotion.matches) return;
+          const context = confetti.getContext('2d');
+          if (!context) return;
+          stopConfetti();
+          confetti.width = innerWidth;
+          confetti.height = innerHeight;
+          confetti.hidden = false;
+          const colors = ['#174f43', '#c18426', '#b5483c', '#284f8f', '#72506b'];
+          const pieces = Array.from({ length: 110 }, () => ({
+            x: innerWidth * (0.25 + Math.random() * 0.5), y: innerHeight * 0.65,
+            vx: (Math.random() - 0.5) * innerWidth, vy: -300 - Math.random() * 650,
+            angle: Math.random() * tau, spin: (Math.random() - 0.5) * 12,
+            color: colors[Math.floor(Math.random() * colors.length)],
+          }));
+          const start = performance.now();
+          let previous = start;
+          function frame(now) {
+            const age = (now - start) / 1000, dt = Math.min((now - previous) / 1000, 0.05);
+            previous = now;
+            context.clearRect(0, 0, confetti.width, confetti.height);
+            context.globalAlpha = Math.min(1, (2.6 - age) / 0.6);
+            for (const piece of pieces) {
+              piece.vy += 650 * dt;
+              piece.x += piece.vx * dt; piece.y += piece.vy * dt; piece.angle += piece.spin * dt;
+              context.save(); context.translate(piece.x, piece.y); context.rotate(piece.angle);
+              context.fillStyle = piece.color; context.fillRect(-3, -5, 6, 10); context.restore();
+            }
+            if (age < 2.6 && !document.hidden) confettiFrame = requestAnimationFrame(frame);
+            else stopConfetti();
+          }
+          confettiFrame = requestAnimationFrame(frame);
+        }
+        world.onMove = () => {
+          if (round.started !== null) return;
+          round.start(); clock.hidden = false; updateClock();
+          clockInterval = setInterval(updateClock, 100);
+        };
+        function finishRound() {
+          const seconds = round.finish();
+          if (seconds === null) return;
+          clearInterval(clockInterval); updateClock();
+          let best = null, saved = false;
+          try {
+            const raw = localStorage.getItem(bestKey);
+            const value = raw === null ? NaN : Number(raw);
+            if (Number.isFinite(value) && value > 0) best = value;
+            if (best === null || seconds < best) {
+              localStorage.setItem(bestKey, String(seconds)); best = seconds;
+            }
+            saved = true;
+          } catch { /* A finished round still works when browser storage is disabled. */ }
+          document.getElementById('pool-time').textContent = `${seconds.toFixed(2)} s`;
+          document.getElementById('pool-best').textContent = best === null ? 'Best time could not be saved.' : `Your best: ${best.toFixed(2)} s`;
+          document.getElementById('pool-record').textContent = saved ? (seconds === best ? 'Personal best! Saved in this browser.' : 'Fastest time wins. Saved in this browser.') : 'Browser storage is unavailable; this round is not saved.';
+          results.showModal(); celebrate();
+          status.textContent = `All balls potted in ${seconds.toFixed(2)} seconds.`;
+        }
+        document.getElementById('pool-again').addEventListener('click', resetAll);
+        document.getElementById('pool-dismiss').addEventListener('click', () => results.close());
         let aim = null, keyAim = null, raf = 0, lastTime = 0, accumulator = 0, lastPaint = 0;
 
         function place(ball) {
@@ -906,6 +1037,7 @@
           ball.button.disabled = true;
           const count = world.balls.filter((b) => b.potted).length;
           status.textContent = `${ball.label} potted. ${count} of ${buttons.length} balls.`;
+          if (count === buttons.length) finishRound();
           if (reducedMotion.matches) { ball.button.hidden = true; return; }
           ball.sink = ball.button.animate([
             { transform: ball.button.style.transform, opacity: 1 },
@@ -961,6 +1093,10 @@
           tip.setAttribute('stop-color', `hsl(${135 - power * 128} 65% 42%)`);
         }
         function resetAll() {
+          const fromResults = results.open;
+          results.close(); stopConfetti();
+          clearInterval(clockInterval); round.reset();
+          clock.hidden = true; clock.textContent = '0.00 s';
           const focused = document.activeElement;
           cancelAim();
           cancelAnimationFrame(raf);
@@ -981,7 +1117,7 @@
           reset.hidden = true;
           measure();
           status.textContent = 'All balls reset.';
-          const target = focused === reset ? world.balls.find((b) => b.visible)?.button : focused;
+          const target = fromResults || focused === reset ? world.balls.find((b) => b.visible)?.button : focused;
           if (target?.classList.contains('card__icon')) target.focus({ preventScroll: true });
         }
         function pause() {
