@@ -26,6 +26,14 @@
       "deployment": { "type": "pages", "name": "playlists-git", "productionBranch": "main" }
     },
     {
+      "id": "fresh-tracks",
+      "name": "Fresh Tracks",
+      "category": "music",
+      "url": "https://fresh.njmurray.com/",
+      "repository": "https://github.com/NicJMurray/fresh-tracks",
+      "deployment": { "type": "worker", "name": "fresh-tracks", "productionBranch": "main" }
+    },
+    {
       "id": "books",
       "name": "Reading List",
       "category": "literature",
