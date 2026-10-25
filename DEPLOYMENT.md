@@ -36,4 +36,4 @@ The `playlists` Direct Upload Pages project remains a fallback without a custom 
 
 `NicJMurray/NDVIChina` contains historical Python research scripts rather than a website. It has no Cloudflare deployment and is not included in the live app catalog.
 
-Fresh Tracks runs as the `fresh-tracks` Worker at `fresh.njmurray.com`, with D1 snapshots and public Spotify previews. Its initial manual deployment is live. Its source is now in `NicJMurray/fresh-tracks` on `main`. The GitHub Actions build passed; automatic deployment still requires the `CLOUDFLARE_API_TOKEN` repository secret. See the separate app deployment notes before claiming Git automation.
+Fresh Tracks runs as the `fresh-tracks` Worker at `fresh.njmurray.com`, with D1 snapshots and public Spotify previews. Its source is in `NicJMurray/fresh-tracks` on `main`. GitHub Actions automatically builds, tests, and deploys code and static assets using an encrypted deployment token. This pipeline was verified on 25 October 2026 against the exact pushed commit and live domain. Database schema changes are applied separately through a D1-capable connection; see the app deployment notes.
