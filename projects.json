@@ -7,7 +7,11 @@
       "category": "home",
       "url": "https://njmurray.com/",
       "repository": "https://github.com/NicJMurray/homepage",
-      "deployment": { "type": "pages", "name": "homepage", "productionBranch": "main" }
+      "deployment": {
+        "type": "pages",
+        "name": "homepage",
+        "productionBranch": "main"
+      }
     },
     {
       "id": "playlist-finder",
@@ -15,7 +19,11 @@
       "category": "music",
       "url": "https://playlist.njmurray.com/",
       "repository": "https://github.com/NicJMurray/spotify-playlist-finder-v2",
-      "deployment": { "type": "pages", "name": "spotify-playlist-finder-v2", "productionBranch": "main" }
+      "deployment": {
+        "type": "pages",
+        "name": "spotify-playlist-finder-v2",
+        "productionBranch": "main"
+      }
     },
     {
       "id": "playlists",
@@ -23,7 +31,11 @@
       "category": "music",
       "url": "https://playlists.njmurray.com/",
       "repository": "https://github.com/NicJMurray/playlists",
-      "deployment": { "type": "pages", "name": "playlists-git", "productionBranch": "main" }
+      "deployment": {
+        "type": "pages",
+        "name": "playlists-git",
+        "productionBranch": "main"
+      }
     },
     {
       "id": "fresh-tracks",
@@ -31,7 +43,11 @@
       "category": "music",
       "url": "https://fresh.njmurray.com/",
       "repository": "https://github.com/NicJMurray/fresh-tracks",
-      "deployment": { "type": "worker", "name": "fresh-tracks", "productionBranch": "main" }
+      "deployment": {
+        "type": "worker",
+        "name": "fresh-tracks",
+        "productionBranch": "main"
+      }
     },
     {
       "id": "books",
@@ -39,7 +55,11 @@
       "category": "literature",
       "url": "https://books.njmurray.com/",
       "repository": "https://github.com/NicJMurray/njmurray-books",
-      "deployment": { "type": "worker", "name": "njmurray-books", "productionBranch": "main" }
+      "deployment": {
+        "type": "worker",
+        "name": "njmurray-books",
+        "productionBranch": "main"
+      }
     },
     {
       "id": "rare-words",
@@ -47,7 +67,11 @@
       "category": "literature",
       "url": "https://rare-words.njmurray.com/",
       "repository": "https://github.com/NicJMurray/gutenberg-v2",
-      "deployment": { "type": "worker", "name": "gutenberg", "productionBranch": "main" }
+      "deployment": {
+        "type": "worker",
+        "name": "gutenberg",
+        "productionBranch": "main"
+      }
     },
     {
       "id": "photography",
@@ -55,7 +79,11 @@
       "category": "art",
       "url": "https://photography.njmurray.com/",
       "repository": "https://github.com/NicJMurray/photography",
-      "deployment": { "type": "pages", "name": "photography", "productionBranch": "main" }
+      "deployment": {
+        "type": "pages",
+        "name": "photography",
+        "productionBranch": "main"
+      }
     },
     {
       "id": "scraper",
@@ -63,7 +91,23 @@
       "category": "tech",
       "url": "https://scraper.njmurray.com/",
       "repository": "https://github.com/NicJMurray/london-jobs-watcher_v2",
-      "deployment": { "type": "worker", "name": "london-jobs-watcher", "productionBranch": "main" }
+      "deployment": {
+        "type": "worker",
+        "name": "london-jobs-watcher",
+        "productionBranch": "main"
+      }
+    },
+    {
+      "id": "housing",
+      "name": "Rent vs Buy vs Invest",
+      "category": "finance",
+      "url": "https://finance.njmurray.com/",
+      "repository": "https://github.com/NicJMurray/housing",
+      "deployment": {
+        "type": "pages",
+        "name": "housing",
+        "productionBranch": "main"
+      }
     }
   ]
 }
