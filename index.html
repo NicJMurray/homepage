@@ -395,7 +395,8 @@
       .card--fresh,
       .card--words,
       .card--scraper,
-      .card--finance {
+      .card--finance,
+      .card--recipes {
         grid-column: span 3;
       }
 
@@ -405,6 +406,11 @@
         grid-column: span 6;
         grid-template-columns: minmax(280px, 0.82fr) minmax(420px, 1.18fr);
         padding: 0;
+      }
+
+      .card--recipes .card__icon,
+      .card--recipes::before {
+        background-color: #75834f;
       }
 
       .card--finance .card__icon,
@@ -604,6 +610,7 @@
           <a href="https://playlists.njmurray.com">Playlists</a>
           <a href="https://rare-words.njmurray.com">Rare Words</a>
           <a href="https://photography.njmurray.com/">Photography</a>
+          <a href="#food">Food</a>
           <a href="#finance">Finance</a>
           <a href="https://github.com/NicJMurray" rel="noopener" target="_blank">GitHub</a>
         </nav>
@@ -716,6 +723,26 @@
                   loading="lazy"
                 />
               </span>
+            </article>
+          </div>
+        </section>
+
+        <section class="project-section" id="food" aria-labelledby="food-title">
+          <div class="section-head">
+            <h2 id="food-title">Food</h2>
+          </div>
+          <div class="grid">
+            <article class="card card--recipes">
+              <span class="card__arrow" aria-hidden="true">&#8594;</span>
+              <button class="card__icon" type="button" disabled aria-label="Shoot Recipes ball" aria-describedby="sphere-help" title="Pull back and release to shoot">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="1.6"/>
+                  <circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.2"/>
+                  <path d="M2 4v5m2-5v5M2 9c0 2 2 2 2 0M3 11v9M22 4c-3 3-3 8 0 8V4Zm0 8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <h3><a class="card__link" data-project="recipes" href="https://recipes.njmurray.com/">Recipes</a></h3>
+              <p>A personal recipe book, with simple lunches, proper dinners and the ones worth making again.</p>
             </article>
           </div>
         </section>

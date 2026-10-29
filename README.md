@@ -17,6 +17,7 @@ The public [projects.json](projects.json) catalog records the canonical URL, rep
 | [Reading List](https://books.njmurray.com/) | [njmurray-books](https://github.com/NicJMurray/njmurray-books) | Worker `njmurray-books` |
 | [Rare Word Explorer](https://rare-words.njmurray.com/) | [gutenberg-v2](https://github.com/NicJMurray/gutenberg-v2) | Worker `gutenberg` |
 | [Photography](https://photography.njmurray.com/) | [photography](https://github.com/NicJMurray/photography) | Pages `photography` |
+| [Recipes](https://recipes.njmurray.com/) | [recipes](https://github.com/NicJMurray/recipes) | Pages `recipes` |
 | [Rent vs Buy vs Invest](https://finance.njmurray.com/) | [housing](https://github.com/NicJMurray/housing) | Pages `housing` |
 | [Scraper](https://scraper.njmurray.com/) | [london-jobs-watcher_v2](https://github.com/NicJMurray/london-jobs-watcher_v2) | Worker `london-jobs-watcher` |
 
@@ -38,7 +39,7 @@ See [DEVELOPMENT.md](DEVELOPMENT.md) for the Codex editing workflow and [DEPLOYM
 
 `index.html` contains the static navigation, project cards, inline styles, analytics, and footer year. Each card has a normal HTML title link stretched across the card, so app navigation does not depend on JavaScript. The responsive layout and all app descriptions are maintained here; the catalog validates URLs rather than rendering the page.
 
-The eight card symbols are playable 48px pool balls. Pull back with a mouse or finger and release to shoot in the opposite direction; a small arrow grows and changes from green to red as power increases. Balls roll across the visible screen, bounce off its edges and each other, and disappear into the pocket at the top right. The pocket and loose balls stay in view while scrolling. A reset button beside the pocket restores all balls to their cards. Keyboard users can focus a ball, aim with Left/Right, change power with Up/Down, and shoot with Enter or Space. Escape cancels aiming and Home resets all balls.
+The nine card symbols are playable 48px pool balls. Pull back with a mouse or finger and release to shoot in the opposite direction; a small arrow grows and changes from green to red as power increases. Balls roll across the visible screen, bounce off its edges and each other, and disappear into the pocket at the top right. The pocket and loose balls stay in view while scrolling. A reset button beside the pocket restores all balls to their cards. Keyboard users can focus a ball, aim with Left/Right, change power with Up/Down, and shoot with Enter or Space. Escape cancels aiming and Home resets all balls.
 
 A small inline Canvas 2D renderer wraps each original SVG onto ivory spots on a coloured, lightly textured ball. Its orientation follows distance travelled, with fixed lighting and a shared hemisphere geometry. Rendering is capped at 2x pixel density and 60 frames per second, uses one animation loop, and stops when the balls settle or the page is hidden. Reduced-motion preferences suppress the pocket animation; shots still respond to deliberate input. The fixed-step physics includes friction, equal-mass collisions, and swept pocket detection. There are no new libraries, external assets, or runtime requests; the page remains one HTML document. The Node tests exercise the actual inline physics code.
 
@@ -68,3 +69,9 @@ Photography now belongs to its own repository and domain. The homepage loads its
 ## Finance
 
 The Finance section links to the independent housing simulator at `finance.njmurray.com`, maintained in `NicJMurray/housing`. Its public defaults are an example profile; personal inputs are saved in the visitor's browser, not committed to the public repository. The card uses the same playable pool-ball interaction as the other apps.
+
+
+
+## Food
+
+The Food section links to the independent recipe collection at `recipes.njmurray.com`, maintained in `NicJMurray/recipes`. Its photo hub opens individual recipes with original ingredient amounts, cooking steps, a checklist and print view. The homepage adds only the navigation, card and catalog entry.

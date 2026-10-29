@@ -20,7 +20,7 @@ A deployment is verified only after Cloudflare reports success for the pushed co
 
 ## Other apps
 
-`projects.json` maps all nine sites to their repositories and Cloudflare projects. The homepage links to stable app domains, so each app can deploy independently without copying its code into this repository.
+`projects.json` maps all sites to their repositories and Cloudflare projects. The homepage links to stable app domains, so each app can deploy independently without copying its code into this repository.
 
 The homepage, playlists gallery, and photography use Pages Git integrations. Playlist Finder stays on the existing `spotify-playlist-finder-v2` Pages project to preserve its encrypted Google credentials; its GitHub Actions deployment uses an encrypted Cloudflare token. The three Workers use the same GitHub Actions publishing pattern. All four pipelines completed successful production deployments on 23 October 2026 after their deployment credentials were configured. Check each app's own `DEPLOYMENT.md` and the current Actions/dashboard status for future deployments.
 
@@ -44,3 +44,8 @@ Fresh Tracks runs as the `fresh-tracks` Worker at `fresh.njmurray.com`, with D1 
 The housing simulator is maintained in `NicJMurray/housing` and served at `finance.njmurray.com`. The homepage only adds the Finance navigation, card and catalog entry; it does not bundle the app.
 
 Housing uses the existing Pages Git integration with build command `npm run build` and output directory `dist`. It is a static-app exception to the general preference for new Workers projects, keeping the existing authorized Git deployment path without a separate Workers Builds credential.
+
+
+## Food
+
+The recipe bank is maintained in `NicJMurray/recipes` and served at `recipes.njmurray.com`. Its Git-connected Pages project is `recipes`, using `npm run build && npm run check` and output directory `dist`. This static-only app uses the existing Pages GitHub authorization, avoiding a separate Workers Builds deployment credential. The homepage keeps only its Food navigation, Recipes card and catalog entry.

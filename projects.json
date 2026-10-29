@@ -108,6 +108,18 @@
         "name": "housing",
         "productionBranch": "main"
       }
+    },
+    {
+      "id": "recipes",
+      "name": "Recipes",
+      "category": "food",
+      "url": "https://recipes.njmurray.com/",
+      "repository": "https://github.com/NicJMurray/recipes",
+      "deployment": {
+        "type": "pages",
+        "name": "recipes",
+        "productionBranch": "main"
+      }
     }
   ]
 }
